@@ -1,0 +1,1648 @@
+// converted by version 1.3
+// on Mon Jun 19 07:07:50 ICT 2023
+
+.package bankcard {
+	.aid 0x11:0x22:0x33:0x44:0x55;
+	.version 1.0;
+
+	.imports {
+		0xA0:0x0:0x0:0x0:0x62:0x0:0x1 1.0;		//java/lang
+		0xA0:0x0:0x0:0x0:0x62:0x2:0x1 1.3;		//javacardx/crypto
+		0xA0:0x0:0x0:0x0:0x62:0x1:0x1 1.3;		//javacard/framework
+		0xA0:0x0:0x0:0x0:0x62:0x1:0x2 1.3;		//javacard/security
+		0xA0:0x0:0x0:0x0:0x62:0x2:0x9 1.0;		//javacardx/apdu
+	}
+
+	.applet {
+		0x11:0x22:0x33:0x44:0x55:0x0 bankcard;
+	}
+
+	.constantPool {
+		// 0
+		instanceFieldRef 1.1 AesConfig/cipher;
+		// 1
+		instanceFieldRef byte[] AesConfig/template;
+		// 2
+		instanceFieldRef short bankcard/MAX_SIZE;
+		// 3
+		instanceFieldRef short bankcard/sizeAvatar;
+		// 4
+		instanceFieldRef AesConfig bankcard/aes;
+		// 5
+		instanceFieldRef byte[] bankcard/pin;
+		// 6
+		instanceFieldRef byte bankcard/retry;
+		// 7
+		instanceFieldRef byte bankcard/tryRemaining;
+		// 8
+		instanceFieldRef boolean bankcard/isValidated;
+		// 9
+		instanceFieldRef 3.11 bankcard/messageDigest;
+		// 10
+		instanceFieldRef 3.20 bankcard/key;
+		// 11
+		instanceFieldRef byte[] bankcard/numberCard;
+		// 12
+		instanceFieldRef byte[] bankcard/nameCard;
+		// 13
+		instanceFieldRef byte[] bankcard/numberBalance;
+		// 14
+		instanceFieldRef byte[] bankcard/createDate;
+		// 15
+		instanceFieldRef byte[] bankcard/expirationDate;
+		// 16
+		instanceFieldRef byte[] bankcard/avatar;
+		// 17
+		instanceFieldRef byte[] bankcard/avatarBuffer;
+		// 18
+		instanceFieldRef 3.15 bankcard/signature;
+		// 19
+		instanceFieldRef byte[] bankcard/signatureBuf;
+		// 20
+		instanceFieldRef 3.8 bankcard/privateKey;
+		// 21
+		instanceFieldRef 3.9 bankcard/publicKey;
+		// 22
+		virtualMethodRef 1.1.1([BSS[BS)S;		// doFinal([BSS[BS)S
+		// 23
+		virtualMethodRef 1.1.5([BSS[BS)S;		// update([BSS[BS)S
+		// 24
+		staticMethodRef 3.11.0(BZ)Ljavacard/security/MessageDigest;;		// javacard/security/MessageDigest.getInstance(BZ)Ljavacard/security/MessageDigest;
+			.descriptor	Ljavacard/security/MessageDigest;	3.11;
+
+		// 25
+		classRef 3.16;		// javacard/security/KeyPair
+		// 26
+		staticFieldRef byte[] bankcard/PIN_DEFAULT;
+		// 27
+		virtualMethodRef 3.11.1([BSS[BS)S;		// doFinal([BSS[BS)S
+		// 28
+		staticMethodRef 3.13.0(BSZ)Ljavacard/security/Key;;		// javacard/security/KeyBuilder.buildKey(BSZ)Ljavacard/security/Key;
+			.descriptor	Ljavacard/security/Key;	3.0;
+
+		// 29
+		classRef 3.20;		// javacard/security/AESKey
+		// 30
+		staticMethodRef 3.16.0(BS)V;		// javacard/security/KeyPair.<init>(BS)V
+		// 31
+		virtualMethodRef 3.16.1()V;		// genKeyPair()V
+		// 32
+		classRef 3.9;		// javacard/security/RSAPublicKey
+		// 33
+		staticMethodRef 2.16.6([BSS)S;		// javacard/framework/Util.setShort([BSS)S
+		// 34
+		staticMethodRef 2.3.0()V;		// javacard/framework/Applet.<init>()V
+		// 35
+		staticMethodRef 0.0.0()V;		// java/lang/Object.<init>()V
+		// 36
+		staticMethodRef 2.8.13(SB)[B;		// javacard/framework/JCSystem.makeTransientByteArray(SB)[B
+		// 37
+		classRef AesConfig;
+		// 38
+		staticMethodRef 3.15.0(BZ)Ljavacard/security/Signature;;		// javacard/security/Signature.getInstance(BZ)Ljavacard/security/Signature;
+			.descriptor	Ljavacard/security/Signature;	3.15;
+
+		// 39
+		staticMethodRef AesConfig/<init>()V;
+		// 40
+		staticMethodRef 1.1.0(BZ)Ljavacardx/crypto/Cipher;;		// javacardx/crypto/Cipher.getInstance(BZ)Ljavacardx/crypto/Cipher;
+			.descriptor	Ljavacardx/crypto/Cipher;	1.1;
+
+		// 41
+		virtualMethodRef 2.3.3()Z;		// selectingApplet()Z
+		// 42
+		virtualMethodRef 2.10.1()[B;		// getBuffer()[B
+		// 43
+		staticMethodRef bankcard/verify(Ljavacard/framework/APDU;)V;
+			.descriptor	Ljavacard/framework/APDU;	2.10;
+
+		// 44
+		staticMethodRef bankcard/create(Ljavacard/framework/APDU;)V;
+			.descriptor	Ljavacard/framework/APDU;	2.10;
+
+		// 45
+		staticMethodRef bankcard/get(Ljavacard/framework/APDU;)V;
+			.descriptor	Ljavacard/framework/APDU;	2.10;
+
+		// 46
+		staticMethodRef bankcard/update(Ljavacard/framework/APDU;)V;
+			.descriptor	Ljavacard/framework/APDU;	2.10;
+
+		// 47
+		staticMethodRef bankcard/getInformation(Ljavacard/framework/APDU;)V;
+			.descriptor	Ljavacard/framework/APDU;	2.10;
+
+		// 48
+		staticMethodRef bankcard/getBalance(Ljavacard/framework/APDU;)V;
+			.descriptor	Ljavacard/framework/APDU;	2.10;
+
+		// 49
+		staticMethodRef bankcard/getAvatar(Ljavacard/framework/APDU;)V;
+			.descriptor	Ljavacard/framework/APDU;	2.10;
+
+		// 50
+		virtualMethodRef AesConfig/decode([BSSLjavacard/security/AESKey;[BS)[B;
+			.descriptor	Ljavacard/security/AESKey;	3.20;
+
+		// 51
+		staticMethodRef bankcard/getLength([BS)S;
+		// 52
+		virtualMethodRef 2.10.8(SS)V;		// setOutgoingAndSend(SS)V
+		// 53
+		staticMethodRef bankcard/updatePin(Ljavacard/framework/APDU;)V;
+			.descriptor	Ljavacard/framework/APDU;	2.10;
+
+		// 54
+		staticMethodRef bankcard/updateAvatar(Ljavacard/framework/APDU;)V;
+			.descriptor	Ljavacard/framework/APDU;	2.10;
+
+		// 55
+		staticMethodRef bankcard/updateInformation([B)V;
+		// 56
+		staticMethodRef bankcard/updateBalance([B)V;
+		// 57
+		staticMethodRef 2.8.1()V;		// javacard/framework/JCSystem.beginTransaction()V
+		// 58
+		virtualMethodRef AesConfig/encode([BSSLjavacard/security/AESKey;[B)[B;
+			.descriptor	Ljavacard/security/AESKey;	3.20;
+
+		// 59
+		staticMethodRef 2.8.2()V;		// javacard/framework/JCSystem.commitTransaction()V
+		// 60
+		virtualMethodRef bankcard/match([BBS)Z;
+		// 61
+		virtualMethodRef bankcard/update([BBS)V;
+		// 62
+		virtualMethodRef bankcard/getTryRemaining()B;
+		// 63
+		virtualMethodRef 3.11.4()V;		// reset()V
+		// 64
+		staticMethodRef 2.16.0([BS[BSS)B;		// javacard/framework/Util.arrayCompare([BS[BSS)B
+		// 65
+		virtualMethodRef 2.10.7()S;		// setOutgoing()S
+		// 66
+		virtualMethodRef 2.10.9(S)V;		// setOutgoingLength(S)V
+		// 67
+		staticMethodRef bankcard/getMin(SS)S;
+		// 68
+		virtualMethodRef 2.10.5([BSS)V;		// sendBytesLong([BSS)V
+		// 69
+		virtualMethodRef 2.10.6()S;		// setIncomingAndReceive()S
+		// 70
+		virtualMethodRef 2.10.16()S;		// getOffsetCdata()S
+		// 71
+		staticMethodRef 2.16.2([BS[BSS)S;		// javacard/framework/Util.arrayCopyNonAtomic([BS[BSS)S
+		// 72
+		virtualMethodRef 2.10.3(S)S;		// receiveBytes(S)S
+		// 73
+		staticMethodRef bankcard/checkPin([BBS)Z;
+		// 74
+		virtualMethodRef bankcard/createInformation(Ljavacard/framework/APDU;)V;
+			.descriptor	Ljavacard/framework/APDU;	2.10;
+
+		// 75
+		staticMethodRef bankcard/createSignature(Ljavacard/framework/APDU;)V;
+			.descriptor	Ljavacard/framework/APDU;	2.10;
+
+		// 76
+		virtualMethodRef bankcard/getPIN()[B;
+		// 77
+		staticMethodRef RsaConfig/generateKeyPair()Ljavacard/security/KeyPair;;
+			.descriptor	Ljavacard/security/KeyPair;	3.16;
+
+		// 78
+		virtualMethodRef 3.16.2()Ljavacard/security/PrivateKey;;		// getPrivate()Ljavacard/security/PrivateKey;
+			.descriptor	Ljavacard/security/PrivateKey;	3.2;
+
+		// 79
+		classRef 3.8;		// javacard/security/RSAPrivateKey
+		// 80
+		staticMethodRef 2.7.1(S)V;		// javacard/framework/ISOException.throwIt(S)V
+		// 81
+		virtualMethodRef 3.16.3()Ljavacard/security/PublicKey;;		// getPublic()Ljavacard/security/PublicKey;
+			.descriptor	Ljavacard/security/PublicKey;	3.3;
+
+		// 82
+		virtualMethodRef 1.1.3(Ljavacard/security/Key;B)V;		// init(Ljavacard/security/Key;B)V
+			.descriptor	Ljavacard/security/Key;	3.0;
+
+		// 83
+		staticMethodRef RsaConfig/serializePublicKey(Ljavacard/security/RSAPublicKey;[BS)S;
+			.descriptor	Ljavacard/security/RSAPublicKey;	3.9;
+
+		// 84
+		virtualMethodRef 3.15.3(Ljavacard/security/Key;B)V;		// init(Ljavacard/security/Key;B)V
+			.descriptor	Ljavacard/security/Key;	3.0;
+
+		// 85
+		virtualMethodRef 3.15.5([BSS[BS)S;		// sign([BSS[BS)S
+		// 86
+		classRef bankcard;
+		// 87
+		staticMethodRef bankcard/<init>()V;
+		// 88
+		virtualMethodRef 2.3.2([BSB)V;		// register([BSB)V
+	}
+
+	.class public AesConfig 0 extends 0.0 {		// extends java/lang/Object
+
+		.fields {
+			private final 1.1 cipher 0;		// Ljavacardx/crypto/Cipher;
+			private final byte[] template 1;		// [B
+		}
+
+		.publicMethodTable 1 {
+			equals(Ljava/lang/Object;)Z;
+			encode([BSSLjavacard/security/AESKey;[B)[B;
+			decode([BSSLjavacard/security/AESKey;[BS)[B;
+		}
+
+		.packageMethodTable 0 {
+		}
+
+		.method public <init>()V 0 {
+			.stack 3;
+			.locals 0;
+
+				L0:	aload_0;
+					invokespecial 35;		// java/lang/Object.<init>()V
+					aload_0;
+					bspush 14;
+					sconst_0;
+					invokestatic 40;		// javacardx/crypto/Cipher.getInstance(BZ)Ljavacardx/crypto/Cipher;
+					putfield_a 0;		// reference bankcard/AesConfig.cipher
+					aload_0;
+					bspush 16;
+					sconst_1;
+					invokestatic 36;		// javacard/framework/JCSystem.makeTransientByteArray(SB)[B
+					putfield_a 1;		// reference bankcard/AesConfig.template
+					return;
+		}
+
+		.method public encode([BSSLjavacard/security/AESKey;[B)[B 1 {
+			.stack 6;
+			.locals 1;
+
+			.descriptor	Ljavacard/security/AESKey;	3.20;
+
+				L0:	sload_3;
+					sconst_1;
+					if_scmpge L2;
+				L1:	sspush 27012;
+					invokestatic 80;		// javacard/framework/ISOException.throwIt(S)V
+				L2:	sload_3;
+					bspush 16;
+					srem;
+					sstore 6;
+				L3:	getfield_a_this 0;		// reference bankcard/AesConfig.cipher
+					aload 4;
+					sconst_2;
+					invokevirtual 82;		// init(Ljavacard/security/Key;B)V
+					sload 6;
+					ifne L5;
+				L4:	getfield_a_this 0;		// reference bankcard/AesConfig.cipher
+					aload_1;
+					sload_2;
+					sload_3;
+					aload 5;
+					sconst_0;
+					invokevirtual 22;		// doFinal([BSS[BS)S
+					pop;
+					aload 5;
+					areturn;
+				L5:	getfield_a_this 0;		// reference bankcard/AesConfig.cipher
+					aload_1;
+					sload_2;
+					sload_3;
+					aload 5;
+					sconst_0;
+					invokevirtual 23;		// update([BSS[BS)S
+					pop;
+					getfield_a_this 0;		// reference bankcard/AesConfig.cipher
+					getfield_a_this 1;		// reference bankcard/AesConfig.template
+					sconst_0;
+					bspush 16;
+					sload 6;
+					ssub;
+					aload 5;
+					sconst_0;
+					invokevirtual 22;		// doFinal([BSS[BS)S
+					pop;
+					aload 5;
+					areturn;
+		}
+
+		.method public decode([BSSLjavacard/security/AESKey;[BS)[B 2 {
+			.stack 6;
+			.locals 0;
+
+			.descriptor	Ljavacard/security/AESKey;	3.20;
+
+				L0:	sload_3;
+					bspush 16;
+					srem;
+					ifeq L2;
+				L1:	sspush 27012;
+					invokestatic 80;		// javacard/framework/ISOException.throwIt(S)V
+				L2:	getfield_a_this 0;		// reference bankcard/AesConfig.cipher
+					aload 4;
+					sconst_1;
+					invokevirtual 82;		// init(Ljavacard/security/Key;B)V
+					getfield_a_this 0;		// reference bankcard/AesConfig.cipher
+					aload_1;
+					sload_2;
+					sload_3;
+					aload 5;
+					sload 6;
+					invokevirtual 22;		// doFinal([BSS[BS)S
+					pop;
+					aload 5;
+					areturn;
+		}
+
+	}
+
+	.class public RsaConfig 1 extends 0.0 {		// extends java/lang/Object
+
+		.publicMethodTable 1 {
+			equals(Ljava/lang/Object;)Z;
+		}
+
+		.packageMethodTable 0 {
+		}
+
+		.method public <init>()V 0 {
+			.stack 1;
+			.locals 0;
+
+				L0:	aload_0;
+					invokespecial 35;		// java/lang/Object.<init>()V
+					return;
+		}
+
+		.method public static generateKeyPair()Ljavacard/security/KeyPair; 1 {
+			.stack 4;
+			.locals 1;
+
+			.descriptor	Ljavacard/security/KeyPair;	3.16;
+
+				L0:	new 25;		// javacard/security/KeyPair
+					dup;
+					sconst_1;
+					sspush 1024;
+					invokespecial 30;		// javacard/security/KeyPair.<init>(BS)V
+					astore_0;
+				L1:	aload_0;
+					invokevirtual 31;		// genKeyPair()V
+					aload_0;
+					areturn;
+		}
+
+		.method public static serializePublicKey(Ljavacard/security/RSAPublicKey;[BS)S 2 {
+			.stack 4;
+			.locals 2;
+
+			.descriptor	Ljavacard/security/RSAPublicKey;	3.9;
+
+				L0:	aload_0;
+					aload_1;
+					sload_2;
+					sconst_2;
+					sadd;
+					invokeinterface 3 32 4;		// javacard/security/RSAPublicKey
+					sstore_3;
+				L1:	aload_0;
+					aload_1;
+					sload_2;
+					sconst_2;
+					sadd;
+					sload_3;
+					sadd;
+					sconst_2;
+					sadd;
+					invokeinterface 3 32 5;		// javacard/security/RSAPublicKey
+					sstore 4;
+				L2:	aload_1;
+					sload_2;
+					sload_3;
+					invokestatic 33;		// javacard/framework/Util.setShort([BSS)S
+					pop;
+					aload_1;
+					sload_2;
+					sconst_2;
+					sadd;
+					sload_3;
+					sadd;
+					sload 4;
+					invokestatic 33;		// javacard/framework/Util.setShort([BSS)S
+					pop;
+					bspush 10;
+					sload_3;
+					sadd;
+					sload 4;
+					sadd;
+					sreturn;
+		}
+
+	}
+
+	.class public bankcard 2 extends 2.3 {		// extends javacard/framework/Applet
+
+		.fields {
+			private final byte[] pin 0;		// [B
+			private final 3.11 messageDigest 1;		// Ljavacard/security/MessageDigest;
+			private final 3.20 key 2;		// Ljavacard/security/AESKey;
+			private final AesConfig aes 3;		// Lbankcard/AesConfig;
+			private byte[] numberCard 4;		// [B
+			private byte[] nameCard 5;		// [B
+			private byte[] numberBalance 6;		// [B
+			private byte[] createDate 7;		// [B
+			private byte[] expirationDate 8;		// [B
+			private byte[] avatar 9;		// [B
+			private byte[] avatarBuffer 10;		// [B
+			private final 3.15 signature 11;		// Ljavacard/security/Signature;
+			private final byte[] signatureBuf 12;		// [B
+			private 3.8 privateKey 13;		// Ljavacard/security/RSAPrivateKey;
+			private 3.9 publicKey 14;		// Ljavacard/security/RSAPublicKey;
+			private byte retry 15;		// B
+			private byte tryRemaining 16;		// B
+			private boolean isValidated 17;		// Z
+			private short MAX_SIZE 18;		// S
+			private short sizeAvatar 19;		// S
+			private static final byte[] PIN_DEFAULT = {49,50,51,52,53,54};		// [B
+			private static final byte PIN_RETRY = 3;		// B
+			private static final byte INS_VERIFY = 0;		// B
+			private static final byte INS_CREATE = 1;		// B
+			private static final byte INS_GET = 2;		// B
+			private static final byte INS_UPDATE = 3;		// B
+			private static final byte PIN = 4;		// B
+			private static final byte BANK_INFORMATION = 5;		// B
+			private static final byte SIGNATURE = 6;		// B
+			private static final byte INFORMATION = 7;		// B
+			private static final byte BALANCE = 8;		// B
+			private static final byte AVATAR = 9;		// B
+			private static final byte INS_RESET_TRY_PIN = 16;		// B
+		}
+
+		.publicMethodTable 7 {
+			equals(Ljava/lang/Object;)Z;
+			register()V;
+			register([BSB)V;
+			selectingApplet()Z;
+			deselect()V;
+			getShareableInterfaceObject(Ljavacard/framework/AID;B)Ljavacard/framework/Shareable;;
+			select()Z;
+			process(Ljavacard/framework/APDU;)V;
+			match([BBS)Z;
+			update([BBS)V;
+			createInformation(Ljavacard/framework/APDU;)V;
+			updatePin([BBS)V;
+			getPIN()[B;
+			getTryRemaining()B;
+			isValidated()Z;
+		}
+
+		.packageMethodTable 0 {
+		}
+
+		.implementedInterfaceInfoTable { 
+			.interface 4.0 { 		// javacardx/apdu/ExtendedLength
+			}
+
+		}
+
+		.method public <init>()V 0 {
+			.stack 6;
+			.locals 0;
+
+				L0:	aload_0;
+					invokespecial 34;		// javacard/framework/Applet.<init>()V
+					aload_0;
+					sspush 4096;
+					putfield_s 2;		// short bankcard/bankcard.MAX_SIZE
+					aload_0;
+					sconst_0;
+					putfield_s 3;		// short bankcard/bankcard.sizeAvatar
+					aload_0;
+					new 37;		// bankcard/AesConfig
+					dup;
+					invokespecial 39;		// bankcard/AesConfig.<init>()V
+					putfield_a 4;		// reference bankcard/bankcard.aes
+					aload_0;
+					bspush 16;
+					newarray 11;
+					putfield_a 5;		// reference bankcard/bankcard.pin
+					aload_0;
+					sconst_3;
+					putfield_b 6;		// byte bankcard/bankcard.retry
+					aload_0;
+					sconst_3;
+					putfield_b 7;		// byte bankcard/bankcard.tryRemaining
+					aload_0;
+					sconst_0;
+					putfield_b 8;		// boolean bankcard/bankcard.isValidated
+					aload_0;
+					sconst_2;
+					sconst_0;
+					invokestatic 24;		// javacard/security/MessageDigest.getInstance(BZ)Ljavacard/security/MessageDigest;
+					putfield_a 9;		// reference bankcard/bankcard.messageDigest
+					getfield_a_this 9;		// reference bankcard/bankcard.messageDigest
+					getstatic_a 26;		// reference bankcard/bankcard.PIN_DEFAULT
+					sconst_0;
+					getstatic_a 26;		// reference bankcard/bankcard.PIN_DEFAULT
+					arraylength;
+					getfield_a_this 5;		// reference bankcard/bankcard.pin
+					sconst_0;
+					invokevirtual 27;		// doFinal([BSS[BS)S
+					pop;
+					aload_0;
+					bspush 15;
+					sspush 128;
+					sconst_0;
+					invokestatic 28;		// javacard/security/KeyBuilder.buildKey(BSZ)Ljavacard/security/Key;
+					checkcast 0 29;		// T_CLASSORINTERFACE javacard/security/AESKey
+					putfield_a 10;		// reference bankcard/bankcard.key
+					aload_0;
+					bspush 16;
+					newarray 11;
+					putfield_a 11;		// reference bankcard/bankcard.numberCard
+					aload_0;
+					bspush 16;
+					newarray 11;
+					putfield_a 12;		// reference bankcard/bankcard.nameCard
+					aload_0;
+					bspush 16;
+					newarray 11;
+					putfield_a 13;		// reference bankcard/bankcard.numberBalance
+					aload_0;
+					bspush 16;
+					newarray 11;
+					putfield_a 14;		// reference bankcard/bankcard.createDate
+					aload_0;
+					bspush 16;
+					newarray 11;
+					putfield_a 15;		// reference bankcard/bankcard.expirationDate
+					aload_0;
+					getfield_s_this 2;		// short bankcard/bankcard.MAX_SIZE
+					newarray 11;
+					putfield_a 16;		// reference bankcard/bankcard.avatar
+					aload_0;
+					getfield_s_this 2;		// short bankcard/bankcard.MAX_SIZE
+					newarray 11;
+					putfield_a 17;		// reference bankcard/bankcard.avatarBuffer
+					aload_0;
+					bspush 10;
+					sconst_0;
+					invokestatic 38;		// javacard/security/Signature.getInstance(BZ)Ljavacard/security/Signature;
+					putfield_a 18;		// reference bankcard/bankcard.signature
+					aload_0;
+					sspush 128;
+					sconst_1;
+					invokestatic 36;		// javacard/framework/JCSystem.makeTransientByteArray(SB)[B
+					putfield_a 19;		// reference bankcard/bankcard.signatureBuf
+					return;
+		}
+
+		.method public process(Ljavacard/framework/APDU;)V 7 {
+			.stack 2;
+			.locals 1;
+
+			.descriptor	Ljavacard/framework/APDU;	2.10;
+
+				L0:	aload_0;
+					invokevirtual 41;		// selectingApplet()Z
+					ifeq L2;
+				L1:	return;
+				L2:	aload_1;
+					invokevirtual 42;		// getBuffer()[B
+					astore_2;
+				L3:	aload_2;
+					sconst_1;
+					baload;
+					stableswitch L8 0 3 L4 L5 L6 L7;
+				L4:	aload_0;
+					aload_1;
+					invokespecial 43;		// bankcard/bankcard.verify(Ljavacard/framework/APDU;)V
+					goto L9;
+				L5:	aload_0;
+					aload_1;
+					invokespecial 44;		// bankcard/bankcard.create(Ljavacard/framework/APDU;)V
+					goto L9;
+				L6:	aload_0;
+					aload_1;
+					invokespecial 45;		// bankcard/bankcard.get(Ljavacard/framework/APDU;)V
+					goto L9;
+				L7:	aload_0;
+					aload_1;
+					invokespecial 46;		// bankcard/bankcard.update(Ljavacard/framework/APDU;)V
+					goto L9;
+				L8:	sspush 27904;
+					invokestatic 80;		// javacard/framework/ISOException.throwIt(S)V
+				L9:	return;
+		}
+
+		.method private get(Ljavacard/framework/APDU;)V {
+			.stack 2;
+			.locals 1;
+
+			.descriptor	Ljavacard/framework/APDU;	2.10;
+
+				L0:	getfield_a_this 11;		// reference bankcard/bankcard.numberCard
+					ifnonnull L2;
+				L1:	return;
+				L2:	aload_1;
+					invokevirtual 42;		// getBuffer()[B
+					astore_2;
+				L3:	aload_2;
+					sconst_2;
+					baload;
+					sconst_5;
+					if_scmpeq L5;
+				L4:	sspush 27270;
+					invokestatic 80;		// javacard/framework/ISOException.throwIt(S)V
+				L5:	aload_2;
+					sconst_3;
+					baload;
+					stableswitch L9 7 9 L6 L7 L8;
+				L6:	aload_0;
+					aload_1;
+					invokespecial 47;		// bankcard/bankcard.getInformation(Ljavacard/framework/APDU;)V
+					goto L10;
+				L7:	aload_0;
+					aload_1;
+					invokespecial 48;		// bankcard/bankcard.getBalance(Ljavacard/framework/APDU;)V
+					goto L10;
+				L8:	aload_0;
+					aload_1;
+					invokespecial 49;		// bankcard/bankcard.getAvatar(Ljavacard/framework/APDU;)V
+					goto L10;
+				L9:	sspush 27270;
+					invokestatic 80;		// javacard/framework/ISOException.throwIt(S)V
+				L10:	return;
+		}
+
+		.method private getBalance(Ljavacard/framework/APDU;)V {
+			.stack 8;
+			.locals 2;
+
+			.descriptor	Ljavacard/framework/APDU;	2.10;
+
+				L0:	aload_1;
+					invokevirtual 42;		// getBuffer()[B
+					astore_2;
+				L1:	aload_0;
+					getfield_a_this 4;		// reference bankcard/bankcard.aes
+					getfield_a_this 13;		// reference bankcard/bankcard.numberBalance
+					sconst_0;
+					getfield_a_this 13;		// reference bankcard/bankcard.numberBalance
+					arraylength;
+					getfield_a_this 10;		// reference bankcard/bankcard.key
+					aload_2;
+					sconst_0;
+					invokevirtual 50;		// decode([BSSLjavacard/security/AESKey;[BS)[B
+					sconst_0;
+					invokespecial 51;		// bankcard/bankcard.getLength([BS)S
+					s2b;
+					sstore_3;
+				L2:	aload_1;
+					sconst_0;
+					sload_3;
+					invokevirtual 52;		// setOutgoingAndSend(SS)V
+					return;
+		}
+
+		.method private update(Ljavacard/framework/APDU;)V {
+			.stack 2;
+			.locals 2;
+
+			.descriptor	Ljavacard/framework/APDU;	2.10;
+
+				L0:	getfield_a_this 12;		// reference bankcard/bankcard.nameCard
+					sconst_0;
+					baload;
+					ifne L2;
+				L1:	sspush 27014;
+					invokestatic 80;		// javacard/framework/ISOException.throwIt(S)V
+				L2:	aload_1;
+					invokevirtual 42;		// getBuffer()[B
+					astore_2;
+				L3:	aload_2;
+					sconst_2;
+					baload;
+					slookupswitch L6 2 4 L5 5 L4;
+				L4:	goto L7;
+				L5:	aload_0;
+					aload_1;
+					invokespecial 53;		// bankcard/bankcard.updatePin(Ljavacard/framework/APDU;)V
+					return;
+				L6:	sspush 27270;
+					invokestatic 80;		// javacard/framework/ISOException.throwIt(S)V
+				L7:	aload_2;
+					sconst_3;
+					baload;
+					sstore_3;
+				L8:	sload_3;
+					bspush 9;
+					if_scmpne L10;
+				L9:	aload_0;
+					aload_1;
+					invokespecial 54;		// bankcard/bankcard.updateAvatar(Ljavacard/framework/APDU;)V
+					return;
+				L10:	aload_2;
+					sconst_4;
+					baload;
+					ifne L12;
+				L11:	sspush 27012;
+					invokestatic 80;		// javacard/framework/ISOException.throwIt(S)V
+				L12:	sload_3;
+					slookupswitch L15 2 7 L13 8 L14;
+				L13:	aload_0;
+					aload_2;
+					invokespecial 55;		// bankcard/bankcard.updateInformation([B)V
+					goto L16;
+				L14:	aload_0;
+					aload_2;
+					invokespecial 56;		// bankcard/bankcard.updateBalance([B)V
+					goto L16;
+				L15:	sspush 27270;
+					invokestatic 80;		// javacard/framework/ISOException.throwIt(S)V
+				L16:	return;
+		}
+
+		.method private updateInformation([B)V {
+			.stack 7;
+			.locals 2;
+
+				L0:	invokestatic 57;		// javacard/framework/JCSystem.beginTransaction()V
+					sconst_5;
+					sstore_2;
+				L1:	aload_1;
+					sload_2;
+					baload;
+					sstore_3;
+				L2:	aload_0;
+					getfield_a_this 4;		// reference bankcard/bankcard.aes
+					aload_1;
+					sload_2;
+					sconst_1;
+					sadd;
+					sload_3;
+					getfield_a_this 10;		// reference bankcard/bankcard.key
+					getfield_a_this 12;		// reference bankcard/bankcard.nameCard
+					invokevirtual 58;		// encode([BSSLjavacard/security/AESKey;[B)[B
+					putfield_a 12;		// reference bankcard/bankcard.nameCard
+					invokestatic 59;		// javacard/framework/JCSystem.commitTransaction()V
+					return;
+		}
+
+		.method private updateBalance([B)V {
+			.stack 7;
+			.locals 2;
+
+				L0:	sconst_5;
+					sstore_2;
+				L1:	aload_1;
+					sconst_4;
+					baload;
+					sstore_3;
+				L2:	invokestatic 57;		// javacard/framework/JCSystem.beginTransaction()V
+					aload_0;
+					getfield_a_this 4;		// reference bankcard/bankcard.aes
+					aload_1;
+					sload_2;
+					sload_3;
+					getfield_a_this 10;		// reference bankcard/bankcard.key
+					getfield_a_this 13;		// reference bankcard/bankcard.numberBalance
+					invokevirtual 58;		// encode([BSSLjavacard/security/AESKey;[B)[B
+					putfield_a 13;		// reference bankcard/bankcard.numberBalance
+					invokestatic 59;		// javacard/framework/JCSystem.commitTransaction()V
+					return;
+		}
+
+		.method private updatePin(Ljavacard/framework/APDU;)V {
+			.stack 4;
+			.locals 3;
+
+			.descriptor	Ljavacard/framework/APDU;	2.10;
+
+				L0:	aload_1;
+					invokevirtual 42;		// getBuffer()[B
+					astore_2;
+				L1:	sconst_5;
+					sstore_3;
+				L2:	aload_2;
+					sload_3;
+					baload;
+					sstore 4;
+				L3:	aload_0;
+					aload_2;
+					sload_3;
+					sconst_1;
+					sadd;
+					s2b;
+					sload 4;
+					invokevirtual 60;		// match([BBS)Z
+					ifeq L5;
+				L4:	sload_3;
+					sload 4;
+					sconst_1;
+					sadd;
+					s2b;
+					sadd;
+					s2b;
+					sstore_3;
+					aload_2;
+					sload_3;
+					baload;
+					sstore 4;
+					aload_0;
+					aload_2;
+					sload_3;
+					sconst_1;
+					sadd;
+					s2b;
+					sload 4;
+					invokevirtual 61;		// update([BBS)V
+					return;
+				L5:	aload_2;
+					sconst_5;
+					aload_0;
+					invokevirtual 62;		// getTryRemaining()B
+					bastore;
+					aload_1;
+					sconst_5;
+					sconst_1;
+					invokevirtual 52;		// setOutgoingAndSend(SS)V
+					sspush 27264;
+					invokestatic 80;		// javacard/framework/ISOException.throwIt(S)V
+					return;
+		}
+
+		.method public match([BBS)Z 8 {
+			.stack 6;
+			.locals 1;
+
+				L0:	getfield_b_this 7;		// byte bankcard/bankcard.tryRemaining
+					ifne L2;
+				L1:	sconst_0;
+					sreturn;
+				L2:	getfield_a_this 5;		// reference bankcard/bankcard.pin
+					arraylength;
+					sconst_2;
+					invokestatic 36;		// javacard/framework/JCSystem.makeTransientByteArray(SB)[B
+					astore 4;
+				L3:	getfield_a_this 9;		// reference bankcard/bankcard.messageDigest
+					invokevirtual 63;		// reset()V
+					getfield_a_this 9;		// reference bankcard/bankcard.messageDigest
+					aload_1;
+					sload_2;
+					sload_3;
+					aload 4;
+					sconst_0;
+					invokevirtual 27;		// doFinal([BSS[BS)S
+					pop;
+					getfield_a_this 5;		// reference bankcard/bankcard.pin
+					sconst_0;
+					aload 4;
+					sconst_0;
+					getfield_a_this 5;		// reference bankcard/bankcard.pin
+					arraylength;
+					invokestatic 64;		// javacard/framework/Util.arrayCompare([BS[BSS)B
+					ifne L5;
+				L4:	aload_0;
+					getfield_b_this 6;		// byte bankcard/bankcard.retry
+					putfield_b 7;		// byte bankcard/bankcard.tryRemaining
+					aload_0;
+					sconst_1;
+					putfield_b 8;		// boolean bankcard/bankcard.isValidated
+					sconst_1;
+					sreturn;
+				L5:	aload_0;
+					dup;
+					getfield_b 7;		// byte bankcard/bankcard.tryRemaining
+					sconst_1;
+					ssub;
+					s2b;
+					putfield_b 7;		// byte bankcard/bankcard.tryRemaining
+					sconst_0;
+					sreturn;
+		}
+
+		.method public update([BBS)V 9 {
+			.stack 6;
+			.locals 0;
+
+				L0:	sload_3;
+					sconst_1;
+					if_scmpge L2;
+				L1:	sspush 27012;
+					invokestatic 80;		// javacard/framework/ISOException.throwIt(S)V
+				L2:	getfield_a_this 9;		// reference bankcard/bankcard.messageDigest
+					invokevirtual 63;		// reset()V
+					getfield_a_this 9;		// reference bankcard/bankcard.messageDigest
+					aload_1;
+					sload_2;
+					sload_3;
+					getfield_a_this 5;		// reference bankcard/bankcard.pin
+					sconst_0;
+					invokevirtual 27;		// doFinal([BSS[BS)S
+					pop;
+					aload_0;
+					getfield_b_this 6;		// byte bankcard/bankcard.retry
+					putfield_b 7;		// byte bankcard/bankcard.tryRemaining
+					return;
+		}
+
+		.method private getLength([BS)S {
+			.stack 2;
+			.locals 1;
+
+				L0:	aload_1;
+					arraylength;
+					sconst_1;
+					ssub;
+					sstore_3;
+				L1:	sload_3;
+					iflt L5;
+				L2:	aload_1;
+					sload_3;
+					baload;
+					ifeq L4;
+				L3:	goto L5;
+				L4:	sinc 3 -1;
+					goto L1;
+				L5:	sload_3;
+					sload_2;
+					ssub;
+					sconst_1;
+					sadd;
+					sreturn;
+		}
+
+		.method private getInformation(Ljavacard/framework/APDU;)V {
+			.stack 11;
+			.locals 2;
+
+			.descriptor	Ljavacard/framework/APDU;	2.10;
+
+				L0:	aload_1;
+					invokevirtual 42;		// getBuffer()[B
+					astore_2;
+				L1:	sconst_0;
+					sstore_3;
+				L2:	aload_2;
+					sload_3;
+					aload_0;
+					getfield_a_this 4;		// reference bankcard/bankcard.aes
+					getfield_a_this 11;		// reference bankcard/bankcard.numberCard
+					sconst_0;
+					getfield_a_this 11;		// reference bankcard/bankcard.numberCard
+					arraylength;
+					getfield_a_this 10;		// reference bankcard/bankcard.key
+					aload_2;
+					sload_3;
+					sconst_1;
+					sadd;
+					invokevirtual 50;		// decode([BSSLjavacard/security/AESKey;[BS)[B
+					sload_3;
+					sconst_1;
+					sadd;
+					invokespecial 51;		// bankcard/bankcard.getLength([BS)S
+					s2b;
+					bastore;
+					sload_3;
+					aload_2;
+					sload_3;
+					baload;
+					sconst_1;
+					sadd;
+					sadd;
+					s2b;
+					sstore_3;
+					aload_2;
+					sload_3;
+					aload_0;
+					getfield_a_this 4;		// reference bankcard/bankcard.aes
+					getfield_a_this 12;		// reference bankcard/bankcard.nameCard
+					sconst_0;
+					getfield_a_this 12;		// reference bankcard/bankcard.nameCard
+					arraylength;
+					getfield_a_this 10;		// reference bankcard/bankcard.key
+					aload_2;
+					sload_3;
+					sconst_1;
+					sadd;
+					invokevirtual 50;		// decode([BSSLjavacard/security/AESKey;[BS)[B
+					sload_3;
+					sconst_1;
+					sadd;
+					invokespecial 51;		// bankcard/bankcard.getLength([BS)S
+					s2b;
+					bastore;
+					sload_3;
+					aload_2;
+					sload_3;
+					baload;
+					sconst_1;
+					sadd;
+					sadd;
+					s2b;
+					sstore_3;
+					aload_2;
+					sload_3;
+					aload_0;
+					getfield_a_this 4;		// reference bankcard/bankcard.aes
+					getfield_a_this 14;		// reference bankcard/bankcard.createDate
+					sconst_0;
+					getfield_a_this 14;		// reference bankcard/bankcard.createDate
+					arraylength;
+					getfield_a_this 10;		// reference bankcard/bankcard.key
+					aload_2;
+					sload_3;
+					sconst_1;
+					sadd;
+					invokevirtual 50;		// decode([BSSLjavacard/security/AESKey;[BS)[B
+					sload_3;
+					sconst_1;
+					sadd;
+					invokespecial 51;		// bankcard/bankcard.getLength([BS)S
+					s2b;
+					bastore;
+					sload_3;
+					aload_2;
+					sload_3;
+					baload;
+					sconst_1;
+					sadd;
+					sadd;
+					s2b;
+					sstore_3;
+					aload_2;
+					sload_3;
+					aload_0;
+					getfield_a_this 4;		// reference bankcard/bankcard.aes
+					getfield_a_this 15;		// reference bankcard/bankcard.expirationDate
+					sconst_0;
+					getfield_a_this 15;		// reference bankcard/bankcard.expirationDate
+					arraylength;
+					getfield_a_this 10;		// reference bankcard/bankcard.key
+					aload_2;
+					sload_3;
+					sconst_1;
+					sadd;
+					invokevirtual 50;		// decode([BSSLjavacard/security/AESKey;[BS)[B
+					sload_3;
+					sconst_1;
+					sadd;
+					invokespecial 51;		// bankcard/bankcard.getLength([BS)S
+					s2b;
+					bastore;
+					sload_3;
+					aload_2;
+					sload_3;
+					baload;
+					sconst_1;
+					sadd;
+					sadd;
+					s2b;
+					sstore_3;
+					aload_2;
+					sload_3;
+					aload_0;
+					getfield_a_this 4;		// reference bankcard/bankcard.aes
+					getfield_a_this 13;		// reference bankcard/bankcard.numberBalance
+					sconst_0;
+					getfield_a_this 13;		// reference bankcard/bankcard.numberBalance
+					arraylength;
+					getfield_a_this 10;		// reference bankcard/bankcard.key
+					aload_2;
+					sload_3;
+					sconst_1;
+					sadd;
+					invokevirtual 50;		// decode([BSSLjavacard/security/AESKey;[BS)[B
+					sload_3;
+					sconst_1;
+					sadd;
+					invokespecial 51;		// bankcard/bankcard.getLength([BS)S
+					s2b;
+					bastore;
+					aload_1;
+					sconst_0;
+					sload_3;
+					aload_2;
+					sload_3;
+					baload;
+					sadd;
+					sconst_1;
+					sadd;
+					invokevirtual 52;		// setOutgoingAndSend(SS)V
+					return;
+		}
+
+		.method private getAvatar(Ljavacard/framework/APDU;)V {
+			.stack 7;
+			.locals 4;
+
+			.descriptor	Ljavacard/framework/APDU;	2.10;
+
+				L0:	getfield_a_this 4;		// reference bankcard/bankcard.aes
+					getfield_a_this 16;		// reference bankcard/bankcard.avatar
+					sconst_0;
+					getfield_s_this 2;		// short bankcard/bankcard.MAX_SIZE
+					getfield_a_this 10;		// reference bankcard/bankcard.key
+					getfield_a_this 17;		// reference bankcard/bankcard.avatarBuffer
+					sconst_0;
+					invokevirtual 50;		// decode([BSSLjavacard/security/AESKey;[BS)[B
+					pop;
+					getfield_s_this 3;		// short bankcard/bankcard.sizeAvatar
+					sstore_2;
+				L1:	aload_1;
+					invokevirtual 65;		// setOutgoing()S
+					sstore_3;
+				L2:	sconst_0;
+					sstore 4;
+				L3:	sconst_0;
+					sstore 5;
+				L4:	aload_1;
+					sload_2;
+					invokevirtual 66;		// setOutgoingLength(S)V
+				L5:	sload_2;
+					ifle L7;
+				L6:	aload_0;
+					sload_2;
+					sload_3;
+					invokespecial 67;		// bankcard/bankcard.getMin(SS)S
+					sstore 4;
+					aload_1;
+					getfield_a_this 17;		// reference bankcard/bankcard.avatarBuffer
+					sload 5;
+					sload 4;
+					invokevirtual 68;		// sendBytesLong([BSS)V
+					sload_2;
+					sload 4;
+					ssub;
+					sstore_2;
+					sload 5;
+					sload 4;
+					sadd;
+					sstore 5;
+					goto L5;
+				L7:	return;
+		}
+
+		.method private getMin(SS)S {
+			.stack 2;
+			.locals 0;
+
+				L0:	sload_1;
+					sload_2;
+					if_scmpgt L2;
+				L1:	sload_1;
+					sreturn;
+				L2:	sload_2;
+					sreturn;
+		}
+
+		.method private updateAvatar(Ljavacard/framework/APDU;)V {
+			.stack 6;
+			.locals 4;
+
+			.descriptor	Ljavacard/framework/APDU;	2.10;
+
+				L0:	aload_1;
+					invokevirtual 42;		// getBuffer()[B
+					astore_2;
+				L1:	aload_1;
+					invokevirtual 69;		// setIncomingAndReceive()S
+					sstore_3;
+				L2:	aload_1;
+					invokevirtual 70;		// getOffsetCdata()S
+					sstore 4;
+				L3:	sconst_0;
+					sstore 5;
+				L4:	sload_3;
+					ifle L6;
+				L5:	aload_2;
+					sload 4;
+					getfield_a_this 17;		// reference bankcard/bankcard.avatarBuffer
+					sload 5;
+					sload_3;
+					invokestatic 71;		// javacard/framework/Util.arrayCopyNonAtomic([BS[BSS)S
+					pop;
+					sload 5;
+					sload_3;
+					sadd;
+					sstore 5;
+					aload_1;
+					sload 4;
+					invokevirtual 72;		// receiveBytes(S)S
+					sstore_3;
+					goto L4;
+				L6:	aload_0;
+					sload 5;
+					putfield_s 3;		// short bankcard/bankcard.sizeAvatar
+					getfield_a_this 4;		// reference bankcard/bankcard.aes
+					getfield_a_this 17;		// reference bankcard/bankcard.avatarBuffer
+					sconst_0;
+					getfield_s_this 2;		// short bankcard/bankcard.MAX_SIZE
+					getfield_a_this 10;		// reference bankcard/bankcard.key
+					getfield_a_this 16;		// reference bankcard/bankcard.avatar
+					invokevirtual 58;		// encode([BSSLjavacard/security/AESKey;[B)[B
+					pop;
+					return;
+		}
+
+		.method private verify(Ljavacard/framework/APDU;)V {
+			.stack 4;
+			.locals 3;
+
+			.descriptor	Ljavacard/framework/APDU;	2.10;
+
+				L0:	aload_1;
+					invokevirtual 42;		// getBuffer()[B
+					astore_2;
+				L1:	sconst_5;
+					sstore_3;
+				L2:	aload_2;
+					sconst_4;
+					baload;
+					sstore 4;
+				L3:	aload_0;
+					aload_2;
+					sload_3;
+					sload 4;
+					invokespecial 73;		// bankcard/bankcard.checkPin([BBS)Z
+					ifeq L5;
+				L4:	return;
+				L5:	aload_2;
+					sconst_5;
+					aload_0;
+					invokevirtual 62;		// getTryRemaining()B
+					bastore;
+					aload_1;
+					sconst_5;
+					sconst_1;
+					invokevirtual 52;		// setOutgoingAndSend(SS)V
+					sspush 27264;
+					invokestatic 80;		// javacard/framework/ISOException.throwIt(S)V
+					return;
+		}
+
+		.method private create(Ljavacard/framework/APDU;)V {
+			.stack 2;
+			.locals 1;
+
+			.descriptor	Ljavacard/framework/APDU;	2.10;
+
+				L0:	aload_1;
+					invokevirtual 42;		// getBuffer()[B
+					astore_2;
+				L1:	aload_2;
+					sconst_2;
+					baload;
+					slookupswitch L4 2 5 L2 6 L3;
+				L2:	aload_0;
+					aload_1;
+					invokevirtual 74;		// createInformation(Ljavacard/framework/APDU;)V
+					goto L5;
+				L3:	aload_0;
+					aload_1;
+					invokespecial 75;		// bankcard/bankcard.createSignature(Ljavacard/framework/APDU;)V
+					goto L5;
+				L4:	sspush 27270;
+					invokestatic 80;		// javacard/framework/ISOException.throwIt(S)V
+				L5:	return;
+		}
+
+		.method public createInformation(Ljavacard/framework/APDU;)V 10 {
+			.stack 7;
+			.locals 4;
+
+			.descriptor	Ljavacard/framework/APDU;	2.10;
+
+				L0:	getfield_a_this 12;		// reference bankcard/bankcard.nameCard
+					sconst_0;
+					baload;
+					ifeq L2;
+				L1:	sspush 27014;
+					invokestatic 80;		// javacard/framework/ISOException.throwIt(S)V
+				L2:	aload_1;
+					invokevirtual 42;		// getBuffer()[B
+					astore_2;
+				L3:	aload_2;
+					sconst_4;
+					baload;
+					ifne L5;
+				L4:	sspush 27012;
+					invokestatic 80;		// javacard/framework/ISOException.throwIt(S)V
+				L5:	getfield_a_this 10;		// reference bankcard/bankcard.key
+					aload_0;
+					invokevirtual 76;		// getPIN()[B
+					sconst_0;
+					invokeinterface 3 29 4;		// javacard/security/AESKey
+					invokestatic 57;		// javacard/framework/JCSystem.beginTransaction()V
+					sconst_5;
+					sstore_3;
+				L6:	aload_2;
+					sload_3;
+					baload;
+					sstore 4;
+				L7:	aload_0;
+					getfield_a_this 4;		// reference bankcard/bankcard.aes
+					aload_2;
+					sload_3;
+					sconst_1;
+					sadd;
+					sload 4;
+					getfield_a_this 10;		// reference bankcard/bankcard.key
+					getfield_a_this 11;		// reference bankcard/bankcard.numberCard
+					invokevirtual 58;		// encode([BSSLjavacard/security/AESKey;[B)[B
+					putfield_a 11;		// reference bankcard/bankcard.numberCard
+					sload_3;
+					sload 4;
+					sconst_1;
+					sadd;
+					s2b;
+					sadd;
+					s2b;
+					sstore_3;
+					aload_2;
+					sload_3;
+					baload;
+					sstore 4;
+					aload_0;
+					getfield_a_this 4;		// reference bankcard/bankcard.aes
+					aload_2;
+					sload_3;
+					sconst_1;
+					sadd;
+					sload 4;
+					getfield_a_this 10;		// reference bankcard/bankcard.key
+					getfield_a_this 12;		// reference bankcard/bankcard.nameCard
+					invokevirtual 58;		// encode([BSSLjavacard/security/AESKey;[B)[B
+					putfield_a 12;		// reference bankcard/bankcard.nameCard
+					sload_3;
+					sload 4;
+					sconst_1;
+					sadd;
+					s2b;
+					sadd;
+					s2b;
+					sstore_3;
+					aload_2;
+					sload_3;
+					baload;
+					sstore 4;
+					aload_0;
+					getfield_a_this 4;		// reference bankcard/bankcard.aes
+					aload_2;
+					sload_3;
+					sconst_1;
+					sadd;
+					sload 4;
+					getfield_a_this 10;		// reference bankcard/bankcard.key
+					getfield_a_this 14;		// reference bankcard/bankcard.createDate
+					invokevirtual 58;		// encode([BSSLjavacard/security/AESKey;[B)[B
+					putfield_a 14;		// reference bankcard/bankcard.createDate
+					sload_3;
+					sload 4;
+					sconst_1;
+					sadd;
+					s2b;
+					sadd;
+					s2b;
+					sstore_3;
+					aload_2;
+					sload_3;
+					baload;
+					sstore 4;
+					aload_0;
+					getfield_a_this 4;		// reference bankcard/bankcard.aes
+					aload_2;
+					sload_3;
+					sconst_1;
+					sadd;
+					sload 4;
+					getfield_a_this 10;		// reference bankcard/bankcard.key
+					getfield_a_this 15;		// reference bankcard/bankcard.expirationDate
+					invokevirtual 58;		// encode([BSSLjavacard/security/AESKey;[B)[B
+					putfield_a 15;		// reference bankcard/bankcard.expirationDate
+					sload_3;
+					sload 4;
+					sconst_1;
+					sadd;
+					s2b;
+					sadd;
+					s2b;
+					sstore_3;
+					aload_2;
+					sload_3;
+					baload;
+					sstore 4;
+					aload_0;
+					getfield_a_this 4;		// reference bankcard/bankcard.aes
+					aload_2;
+					sload_3;
+					sconst_1;
+					sadd;
+					sload 4;
+					getfield_a_this 10;		// reference bankcard/bankcard.key
+					getfield_a_this 13;		// reference bankcard/bankcard.numberBalance
+					invokevirtual 58;		// encode([BSSLjavacard/security/AESKey;[B)[B
+					putfield_a 13;		// reference bankcard/bankcard.numberBalance
+					invokestatic 59;		// javacard/framework/JCSystem.commitTransaction()V
+					invokestatic 77;		// bankcard/RsaConfig.generateKeyPair()Ljavacard/security/KeyPair;
+					astore 5;
+				L8:	aload_0;
+					aload 5;
+					invokevirtual 78;		// getPrivate()Ljavacard/security/PrivateKey;
+					checkcast 0 79;		// T_CLASSORINTERFACE javacard/security/RSAPrivateKey
+					putfield_a 20;		// reference bankcard/bankcard.privateKey
+					aload_0;
+					aload 5;
+					invokevirtual 81;		// getPublic()Ljavacard/security/PublicKey;
+					checkcast 0 32;		// T_CLASSORINTERFACE javacard/security/RSAPublicKey
+					putfield_a 21;		// reference bankcard/bankcard.publicKey
+					getfield_a_this 21;		// reference bankcard/bankcard.publicKey
+					aload_2;
+					sconst_0;
+					invokestatic 83;		// bankcard/RsaConfig.serializePublicKey(Ljavacard/security/RSAPublicKey;[BS)S
+					sstore 4;
+					aload_1;
+					sconst_0;
+					sload 4;
+					invokevirtual 52;		// setOutgoingAndSend(SS)V
+					return;
+		}
+
+		.method private checkPin([BBS)Z {
+			.stack 6;
+			.locals 1;
+
+				L0:	getfield_b_this 7;		// byte bankcard/bankcard.tryRemaining
+					ifne L2;
+				L1:	sconst_0;
+					sreturn;
+				L2:	getfield_a_this 5;		// reference bankcard/bankcard.pin
+					arraylength;
+					sconst_2;
+					invokestatic 36;		// javacard/framework/JCSystem.makeTransientByteArray(SB)[B
+					astore 4;
+				L3:	getfield_a_this 9;		// reference bankcard/bankcard.messageDigest
+					invokevirtual 63;		// reset()V
+					getfield_a_this 9;		// reference bankcard/bankcard.messageDigest
+					aload_1;
+					sload_2;
+					sload_3;
+					aload 4;
+					sconst_0;
+					invokevirtual 27;		// doFinal([BSS[BS)S
+					pop;
+					getfield_a_this 5;		// reference bankcard/bankcard.pin
+					sconst_0;
+					aload 4;
+					sconst_0;
+					getfield_a_this 5;		// reference bankcard/bankcard.pin
+					arraylength;
+					invokestatic 64;		// javacard/framework/Util.arrayCompare([BS[BSS)B
+					ifne L5;
+				L4:	aload_0;
+					getfield_b_this 6;		// byte bankcard/bankcard.retry
+					putfield_b 7;		// byte bankcard/bankcard.tryRemaining
+					aload_0;
+					sconst_1;
+					putfield_b 8;		// boolean bankcard/bankcard.isValidated
+					sconst_1;
+					sreturn;
+				L5:	aload_0;
+					dup;
+					getfield_b 7;		// byte bankcard/bankcard.tryRemaining
+					sconst_1;
+					ssub;
+					s2b;
+					putfield_b 7;		// byte bankcard/bankcard.tryRemaining
+					sconst_0;
+					sreturn;
+		}
+
+		.method public updatePin([BBS)V 11 {
+			.stack 6;
+			.locals 0;
+
+				L0:	sload_3;
+					sconst_1;
+					if_scmpge L2;
+				L1:	sspush 27012;
+					invokestatic 80;		// javacard/framework/ISOException.throwIt(S)V
+				L2:	getfield_a_this 9;		// reference bankcard/bankcard.messageDigest
+					invokevirtual 63;		// reset()V
+					getfield_a_this 9;		// reference bankcard/bankcard.messageDigest
+					aload_1;
+					sload_2;
+					sload_3;
+					getfield_a_this 5;		// reference bankcard/bankcard.pin
+					sconst_0;
+					invokevirtual 27;		// doFinal([BSS[BS)S
+					pop;
+					aload_0;
+					getfield_b_this 6;		// byte bankcard/bankcard.retry
+					putfield_b 7;		// byte bankcard/bankcard.tryRemaining
+					return;
+		}
+
+		.method public getPIN()[B 12 {
+			.stack 1;
+			.locals 0;
+
+				L0:	getfield_a_this 5;		// reference bankcard/bankcard.pin
+					areturn;
+		}
+
+		.method public getTryRemaining()B 13 {
+			.stack 1;
+			.locals 0;
+
+				L0:	getfield_b_this 7;		// byte bankcard/bankcard.tryRemaining
+					sreturn;
+		}
+
+		.method public isValidated()Z 14 {
+			.stack 1;
+			.locals 0;
+
+				L0:	getfield_b_this 8;		// boolean bankcard/bankcard.isValidated
+					sreturn;
+		}
+
+		.method private createSignature(Ljavacard/framework/APDU;)V {
+			.stack 6;
+			.locals 2;
+
+			.descriptor	Ljavacard/framework/APDU;	2.10;
+
+				L0:	getfield_a_this 12;		// reference bankcard/bankcard.nameCard
+					sconst_0;
+					baload;
+					ifne L2;
+				L1:	sspush 27014;
+					invokestatic 80;		// javacard/framework/ISOException.throwIt(S)V
+				L2:	aload_1;
+					invokevirtual 42;		// getBuffer()[B
+					astore_2;
+				L3:	aload_2;
+					sconst_4;
+					baload;
+					sstore_3;
+				L4:	sload_3;
+					ifne L6;
+				L5:	sspush 27012;
+					invokestatic 80;		// javacard/framework/ISOException.throwIt(S)V
+				L6:	getfield_a_this 18;		// reference bankcard/bankcard.signature
+					getfield_a_this 20;		// reference bankcard/bankcard.privateKey
+					sconst_1;
+					invokevirtual 84;		// init(Ljavacard/security/Key;B)V
+					getfield_a_this 18;		// reference bankcard/bankcard.signature
+					aload_2;
+					sconst_5;
+					sload_3;
+					getfield_a_this 19;		// reference bankcard/bankcard.signatureBuf
+					sconst_0;
+					invokevirtual 85;		// sign([BSS[BS)S
+					pop;
+					aload_1;
+					invokevirtual 65;		// setOutgoing()S
+					pop;
+					aload_1;
+					getfield_a_this 19;		// reference bankcard/bankcard.signatureBuf
+					arraylength;
+					invokevirtual 66;		// setOutgoingLength(S)V
+					aload_1;
+					getfield_a_this 19;		// reference bankcard/bankcard.signatureBuf
+					sconst_0;
+					getfield_a_this 19;		// reference bankcard/bankcard.signatureBuf
+					arraylength;
+					invokevirtual 68;		// sendBytesLong([BSS)V
+					return;
+		}
+
+		.method public static install([BSB)V 1 {
+			.stack 5;
+			.locals 0;
+
+				L0:	new 86;		// bankcard/bankcard
+					dup;
+					invokespecial 87;		// bankcard/bankcard.<init>()V
+					aload_0;
+					sload_1;
+					sconst_1;
+					sadd;
+					aload_0;
+					sload_1;
+					baload;
+					invokevirtual 88;		// register([BSB)V
+					return;
+		}
+
+	}
+
+}

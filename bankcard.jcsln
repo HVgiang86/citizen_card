@@ -1,0 +1,11 @@
+<JavaCardSolution name="bankcard">
+    <JavaCardProjects>
+        <JavaCardProject path="bankcard.jcproj" />
+    </JavaCardProjects>
+    <Build>
+        <BuildDependon />
+    </Build>
+    <Platform>
+        <ChipPack Name="JAVACOS" />
+    </Platform>
+</JavaCardSolution>

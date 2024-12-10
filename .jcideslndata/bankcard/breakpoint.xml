@@ -1,0 +1,54 @@
+<JavaCardSolution name="D:/Code/java_card/TheThongMinh/project/jcide/bankcard/.jcideslndata/bankcard/breakpoint.xml">
+    <breakPointInfo>
+        <bpVersion>2</bpVersion>
+        <projects>
+            <project name="bankcard">
+                <packages>
+                    <package name="bankcard">
+                        <files>
+                            <file name="bankcard.java">
+                                <lines>
+                                    <line>
+                                        <lineNumber>249</lineNumber>
+                                        <valid>1</valid>
+                                        <invalidTimes>0</invalidTimes>
+                                        <Condition></Condition>
+                                        <logMessage></logMessage>
+                                    </line>
+                                    <line>
+                                        <lineNumber>245</lineNumber>
+                                        <valid>1</valid>
+                                        <invalidTimes>0</invalidTimes>
+                                        <Condition></Condition>
+                                        <logMessage></logMessage>
+                                    </line>
+                                    <line>
+                                        <lineNumber>243</lineNumber>
+                                        <valid>1</valid>
+                                        <invalidTimes>0</invalidTimes>
+                                        <Condition></Condition>
+                                        <logMessage></logMessage>
+                                    </line>
+                                    <line>
+                                        <lineNumber>198</lineNumber>
+                                        <valid>1</valid>
+                                        <invalidTimes>0</invalidTimes>
+                                        <Condition></Condition>
+                                        <logMessage></logMessage>
+                                    </line>
+                                    <line>
+                                        <lineNumber>366</lineNumber>
+                                        <valid>1</valid>
+                                        <invalidTimes>0</invalidTimes>
+                                        <Condition></Condition>
+                                        <logMessage></logMessage>
+                                    </line>
+                                </lines>
+                            </file>
+                        </files>
+                    </package>
+                </packages>
+            </project>
+        </projects>
+    </breakPointInfo>
+</JavaCardSolution>
