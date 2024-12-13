@@ -14,7 +14,7 @@ public class UtilLC {
         short byte3 = (short) (buf[offset + 2] & 0xFF);
 
         // Chuyn i 3 byte thành short (gii hn 16-bit)
-        return (short) ((byte1 << 8) | (byte2 << 4) | byte3);
+        return (short) ((byte2 << 8) | byte3);
     }
 }
 

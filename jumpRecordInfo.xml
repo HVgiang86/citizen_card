@@ -1,6 +1,14 @@
 <jumpRecord>
 <prevNodes>
 <jnode>
+<fileName>E:\java_card\citizen_card\src\bankcard\CitizenCard.java</fileName>
+<line>260</line>
+</jnode>
+<jnode>
+<fileName>E:\TUYEN\NAM4\DOT2\THETHONGMINH\BAITAP\bankcard\src\bankcard\AesConfig.java</fileName>
+<line>35</line>
+</jnode>
+<jnode>
 <fileName>C:\JavaCardKit\SDK\Tools\JCIDE\apis\jc222\javacardx\crypto\Cipher.java</fileName>
 <line>420</line>
 </jnode>
@@ -63,8 +71,8 @@
 </prevNodes>
 <nextRecord>
 <jnode>
-<fileName>E:\TUYEN\NAM4\DOT2\THETHONGMINH\BAITAP\bankcard\src\bankcard\AesConfig.java</fileName>
-<line>35</line>
+<fileName>E:\java_card\citizen_card\src\bankcard\CitizenCard.java</fileName>
+<line>58</line>
 </jnode>
 </nextRecord>
 </jumpRecord>

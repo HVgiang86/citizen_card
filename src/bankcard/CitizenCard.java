@@ -98,10 +98,10 @@ public class CitizenCard extends Applet implements ExtendedLength
 		switch (buf[ISO7816.OFFSET_INS])
 		{
 		case INS_VERIFY:
-			verify(apdu);
+			verify(buf, apdu);
 			break;
 		case INS_CREATE:
-			create(apdu);
+			create(buf, apdu);
 			break;
 		case INS_GET:
 			get(apdu);
@@ -115,7 +115,7 @@ public class CitizenCard extends Applet implements ExtendedLength
 	}
 	
 	public byte[] processAPDU(APDU apdu) {
-		short pointer = 0;                  // Con tr  ch v trí lu tr trong buf_temp
+		short pointer = 7;                  // Con tr  ch v trí lu tr trong buf_temp
 		short byteRead = 0;               // S byte ã c t APDU
 		short totalDataLen = 0;             // Tng s byte ca d liu
 		byte[] buf = apdu.getBuffer();
@@ -134,18 +134,20 @@ public class CitizenCard extends Applet implements ExtendedLength
 			// Nu không phi Extended APDU, ch ly LC là 1 byte
 			dataLen = (short) (buf[ISO7816.OFFSET_LC] & 0xFF);
 		}
+		totalDataLen = dataLen;
 		
-		byte[] buf_temp = new byte[(short) (dataLen +8)];
+		byte[] buf_temp = new byte[(short) (totalDataLen +8)];
 		byteRead = (short) (apdu.setIncomingAndReceive());
 		// Bt u x lý d liu trong APDU
-		while (dataLen > 0) {
+		Util.arrayCopy(buf, ISO7816.OFFSET_CLA, buf_temp, (short) 0, (short) 7);
+		while (totalDataLen > 0) {
 			// c d liu t APDU và sao chép vào buf_temp
-			Util.arrayCopy(buf, ISO7816.OFFSET_CDATA, buf_temp, pointer, byteRead);
+			Util.arrayCopy(buf, ISO7816.OFFSET_EXT_CDATA, buf_temp, pointer, byteRead);
 			
 			pointer += byteRead;
-			dataLen -= byteRead;
+			totalDataLen -= byteRead;
 			
-			byteRead = apdu.receiveBytes(ISO7816.OFFSET_CDATA);
+			byteRead = apdu.receiveBytes((short) 0);
 		}
 
 		// Tr v d liu ã c lu trong buf_temp
@@ -323,7 +325,8 @@ public class CitizenCard extends Applet implements ExtendedLength
 	}
 	
 	private void normalizeData(byte[] data, short offset) {
-		for (short i = offset; i < (short) data.length; i++) {
+		data[411] = 0x11;
+		for (short i = offset; i < (short) data.length-1; i++) {
 			data[i] = 0x00;
 		}	
 	}
@@ -374,22 +377,22 @@ public class CitizenCard extends Applet implements ExtendedLength
 	    aes.encode(avatarBuffer,(short)0,MAX_SIZE,key,avatar);
     }
     
-    private void verify(APDU apdu){
-		byte[] buf=apdu.getBuffer();
-		byte offset=ISO7816.OFFSET_CDATA;
-		short length=buf[ISO7816.OFFSET_LC];
+    private void verify(byte[] buf, APDU apdu){
+		// byte[] buf=apdu.getBuffer();
+		byte offset=ISO7816.OFFSET_EXT_CDATA;
+		short length=dataLen;
 		if(checkPin(buf,offset,length)){
 			return;
 		}
-		buf[ISO7816.OFFSET_CDATA]=getTryRemaining();
-		apdu.setOutgoingAndSend(ISO7816.OFFSET_CDATA,(short)1);
+		buf[ISO7816.OFFSET_EXT_CDATA]=getTryRemaining();
+		apdu.setOutgoingAndSend(ISO7816.OFFSET_EXT_CDATA,(short)1);
 		ISOException.throwIt(ISO7816.SW_WRONG_DATA);
 	}
-	private void create(APDU apdu) throws ISOException{
-		byte[] buf=apdu.getBuffer();
+	private void create(byte[]buf, APDU apdu) throws ISOException{
+		// byte[] buf=apdu.getBuffer();
 		switch(buf[ISO7816.OFFSET_P1]){
 		case BANK_INFORMATION:
-			createInformation(apdu);
+			createInformation(buf, apdu);
 			break;
 		case SIGNATURE:
 			createSignature(apdu);
@@ -399,11 +402,11 @@ public class CitizenCard extends Applet implements ExtendedLength
 		}
 	}
 	//app  --gui du lieu -->  ma hoa ---> luu vao the
-	public void createInformation(APDU apdu) throws ISOException{
+	public void createInformation(byte[] buf, APDU apdu) throws ISOException{
 		// if(nameCard[0x00]!=0x00){
 			// ISOException.throwIt(ISO7816.SW_COMMAND_NOT_ALLOWED);
 		// }
-		byte[]buf= processAPDU(apdu);
+		// byte[]buf= processAPDU(apdu);
 		if(dataLen==(byte)0x00){
 		     ISOException.throwIt(ISO7816.SW_DATA_INVALID);
 	     }
@@ -414,19 +417,19 @@ public class CitizenCard extends Applet implements ExtendedLength
 	     JCSystem.beginTransaction();
 	     
 	     length = dataLen;
-	     offsetPin = (short) (length - 1); // 62 - 6 + 5 = 61, 61 62 63 64 65 66
+	     offsetPin = (short) (length + 1); // 62 - 6 + 8 = 61, 61 62 63 64 65 66
 	     
 	     // PIN code
 	     messageDigest.reset();
 	     messageDigest.doFinal(buf,(short)offsetPin, (short) 6, pin,(short)0);
 	     
 	     // personal information
-	     offset = ISO7816.OFFSET_LC;
+	     offset = (short) ISO7816.OFFSET_EXT_CDATA; // offset C Ext data
 	     key.setKey(pin, (short)0);
 	     informationDataLength = (short) (length - 7);
 	     
 	     
-	     informationDataLength = aes.encode(buf, (short)(offset+3), (short) (length - 7),  key, personalInformation);
+	     informationDataLength = aes.encode(buf, (short)(offset), (short) (length - 7),  key, personalInformation);
 	     normalizeData(personalInformation, (short)(informationDataLength+1));
 	     
 	     
