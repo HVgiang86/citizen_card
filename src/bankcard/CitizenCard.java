@@ -325,10 +325,7 @@ public class CitizenCard extends Applet implements ExtendedLength
 	}
 	
 	private void normalizeData(byte[] data, short offset) {
-		data[411] = 0x11;
-		for (short i = offset; i < (short) data.length-1; i++) {
-			data[i] = 0x00;
-		}	
+		Util.arrayFillNonAtomic(data, offset, (short) (data.length - offset), (byte) 0x00);
 	}
 	
 	private short getArrayLen(byte[] data) {
