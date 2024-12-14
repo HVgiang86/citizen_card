@@ -3,13 +3,7 @@
 <name>bankcard</name>
 <classFile>
 <name>CitizenCard.java</name>
-<lines>
-<line>
-<linenumber>328</linenumber>
-<valid>1</valid>
-<invalidTimes>0</invalidTimes>
-</line>
-</lines>
+<lines/>
 </classFile>
 </package>
 </breakPointInfo>
