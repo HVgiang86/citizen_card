@@ -20,7 +20,7 @@ public class AesConfig {
         byte paddingValue = (byte) 0x00; // Padding byte value
 
         // Copy original data and add padding
-        Util.arrayFillNonAtomic(input, (short) length, paddedLength, (byte) 0x00);
+        Util.arrayFillNonAtomic(input, (short) length, (short) (paddedLength-length), (byte) 0x00);
 
         return paddedLength;
     }

@@ -76,6 +76,7 @@ public class CitizenCard extends Applet implements ExtendedLength
       
         // numberCard= new byte[16];
         avatarBuffer = new byte[MAX_SIZE];
+        avatar = new byte[MAX_SIZE];
         personalInformation = new byte[1024];
         signature = Signature.getInstance(Signature.ALG_RSA_SHA_PKCS1, false);
         
@@ -130,8 +131,9 @@ public class CitizenCard extends Applet implements ExtendedLength
 			dataLen = (short) (buf[ISO7816.OFFSET_LC] & 0xFF);
 		}
 		totalDataLen = dataLen;
+		short standardLen = (short) (totalDataLen + (16 - (totalDataLen % 16)));
 		
-		byte[] buf_temp = new byte[(short) (totalDataLen +8)];
+		byte[] buf_temp = new byte[(short) (standardLen +8)];
 		byteRead = (short) (apdu.setIncomingAndReceive());
 		Util.arrayCopy(buf, ISO7816.OFFSET_CLA, buf_temp, (short) 0, (short) 7);
 		Util.arrayCopy(buf, ISO7816.OFFSET_EXT_CDATA, buf_temp, pointer, byteRead);
