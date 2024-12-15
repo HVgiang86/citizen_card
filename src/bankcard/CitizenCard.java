@@ -138,6 +138,7 @@ public class CitizenCard extends Applet implements ExtendedLength
 		Util.arrayCopy(buf, ISO7816.OFFSET_CLA, buf_temp, (short) 0, (short) 7);
 		Util.arrayCopy(buf, ISO7816.OFFSET_EXT_CDATA, buf_temp, pointer, byteRead);
 		totalDataLen -= byteRead; 
+		pointer += byteRead;
 		byteRead = apdu.receiveBytes((short) 0);
 		
 		while (totalDataLen > 0) {
@@ -352,7 +353,7 @@ public class CitizenCard extends Applet implements ExtendedLength
 	}
 	
 	private void getAvatar(APDU apdu) {
-		short avtSize = aes.decode(avatarBuffer,(short)0,sizeAvatar,key,avatar,(short)0);
+		short avtSize = aes.decode(avatar,(short)0,sizeAvatar,key,avatarBuffer,(short)0);
 		avtSize = getArrayLen(avatarBuffer);
 		
 		
@@ -382,7 +383,7 @@ public class CitizenCard extends Applet implements ExtendedLength
         sizeAvatar = dataLen;
 	    short paddedAvatar = aes.encode(avatarBuffer,(short)0,dataLen,key,avatar);
 	    sizeAvatar = paddedAvatar;
-	    normalizeData(avatarBuffer, paddedAvatar);
+	    normalizeData(avatar, paddedAvatar);
     }
     
     private void verify(byte[] buf, APDU apdu){
