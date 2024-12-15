@@ -352,20 +352,23 @@ public class CitizenCard extends Applet implements ExtendedLength
 	}
 	
 	private void getAvatar(APDU apdu) {
-		aes.decode(avatar,(short)0,MAX_SIZE,key,avatarBuffer,(short)0);
-		short size = sizeAvatar;
+		short avtSize = aes.decode(avatarBuffer,(short)0,sizeAvatar,key,avatar,(short)0);
+		avtSize = getArrayLen(avatarBuffer);
+		
+		
 		short maxLength = apdu.setOutgoing();
 		short length = 0;
 		short pointer = 0;
 		//bo dem apdu
-		apdu.setOutgoingLength(size);
-		while (size > 0) {
-			length = getMin(size, maxLength);
+		apdu.setOutgoingLength(avtSize);
+		while (avtSize > 0) {
+			length = getMin(avtSize, maxLength);
 			apdu.sendBytesLong(avatarBuffer, pointer, length);
-			size -= length;
+			avtSize -= length;
 			pointer += length;
 		}
 	}
+	
 	private short getMin(short lengthOne,short lengthTwo){
 	    if(lengthOne<=lengthTwo){
 		    return lengthOne;
@@ -376,20 +379,21 @@ public class CitizenCard extends Applet implements ExtendedLength
     // 00 03 05 09
 	private void updateAvatar(byte[] buf, APDU apdu){
 	    Util.arrayCopyNonAtomic(buf,ISO7816.OFFSET_EXT_CDATA,avatarBuffer,(short) 0,dataLen);
-        this.sizeAvatar = dataLen;
+        sizeAvatar = dataLen;
 	    short paddedAvatar = aes.encode(avatarBuffer,(short)0,dataLen,key,avatar);
-	    normalizeData(avatarBuffer, dataLen);
+	    sizeAvatar = paddedAvatar;
+	    normalizeData(avatarBuffer, paddedAvatar);
     }
     
     private void verify(byte[] buf, APDU apdu){
-		// byte[] buf=apdu.getBuffer();
+		byte[] bufApdu=apdu.getBuffer();
 		byte offset=ISO7816.OFFSET_EXT_CDATA;
 		short length=dataLen;
 		if(checkPin(buf,offset,length)){
 			return;
 		}
-		buf[ISO7816.OFFSET_EXT_CDATA]=getTryRemaining();
-		apdu.setOutgoingAndSend(ISO7816.OFFSET_EXT_CDATA,(short)1);
+		bufApdu[(short) 0]=getTryRemaining();
+		apdu.setOutgoingAndSend((short) 0,(short)1);
 		ISOException.throwIt(ISO7816.SW_WRONG_DATA);
 	}
 	private void create(byte[]buf, APDU apdu) throws ISOException{
@@ -435,7 +439,6 @@ public class CitizenCard extends Applet implements ExtendedLength
 	     
 	     informationDataLength = aes.encode(buf, (short)(offset), (short) (length - 7),  key, personalInformation);
 	     normalizeData(personalInformation, (short)(informationDataLength+1));
-	     
 	     
 	     JCSystem.commitTransaction();
 	     KeyPair keyPair=RsaConfig.generateKeyPair();

@@ -9,14 +9,7 @@
                             <file name="CitizenCard.java">
                                 <lines>
                                     <line>
-                                        <lineNumber>386</lineNumber>
-                                        <valid>1</valid>
-                                        <invalidTimes>0</invalidTimes>
-                                        <Condition></Condition>
-                                        <logMessage></logMessage>
-                                    </line>
-                                    <line>
-                                        <lineNumber>91</lineNumber>
+                                        <lineNumber>92</lineNumber>
                                         <valid>1</valid>
                                         <invalidTimes>0</invalidTimes>
                                         <Condition></Condition>

@@ -20,7 +20,7 @@ public class AesConfig {
         byte paddingValue = (byte) 0x00; // Padding byte value
 
         // Copy original data and add padding
-        Util.arrayFillNonAtomic(input, (short) length, (short) (paddedLength-length), (byte) 0x00);
+        Util.arrayFillNonAtomic(input, (short) (length + offset), (short) (paddedLength-length), (byte) 0x00);
 
         return paddedLength;
     }
@@ -30,9 +30,11 @@ public class AesConfig {
         byte paddingValue = 0x00;
         short paddingLength = 0;
         for (short i = (short) (length - 1); i >= 0; i--) {
-	        if (output[i] == paddingValue) {
-		        paddingLength ++;
+	       
+	        if (output[i] != paddingValue) {
+		        break;
 	        }
+	        paddingLength ++;
         }
         
         return (short) (length - paddingLength); // Return the original length without padding
@@ -51,7 +53,7 @@ public class AesConfig {
         cipher.init(key, Cipher.MODE_ENCRYPT);
 
         // Perform encryption, copy result into the output array
-        cipher.doFinal(input, (short) 0, paddedLength, output, (short) 0);
+        cipher.doFinal(input, offset, paddedLength, output, (short) 0);
 
         // Return the padded length, indicating the length of the encrypted data
         return paddedLength;
