@@ -36,14 +36,13 @@ public class CitizenCard extends Applet implements ExtendedLength
 	private static final byte BANK_INFORMATION=(byte)0x05;
 	private static final byte SIGNATURE=(byte)0x06;
 	private static final byte INFORMATION=(byte)0x07;
+	private static final byte CARD_ID=(byte)0x0A;
 	
 	private static final byte BALANCE=(byte)0x08;
 	private static final byte AVATAR=(byte)0x09;
 	private static final byte INS_RESET_TRY_PIN=(byte)0x10;
     
-    private byte[] numberCard;
-    private byte[] nameCard;
-    private byte[] numberBalance;
+    private byte[] cardId;
     private byte[] createDate;
     private byte[] expirationDate;
     private short dataLen;
@@ -67,6 +66,7 @@ public class CitizenCard extends Applet implements ExtendedLength
     public CitizenCard(){
     	aes= new AesConfig();
 	    pin = new byte[16];
+	    cardId = new byte[12];
 	    retry = PIN_RETRY;
 	    tryRemaining = PIN_RETRY;
 	    isValidated = false;
@@ -171,6 +171,9 @@ public class CitizenCard extends Applet implements ExtendedLength
 		case AVATAR:
 			getAvatar(apdu);
 			break;
+		case CARD_ID:
+			getCardId(apdu);
+			break;
 		default:
 			ISOException.throwIt(ISO7816.SW_INCORRECT_P1P2);
 		}
@@ -263,25 +266,6 @@ public class CitizenCard extends Applet implements ExtendedLength
 	    apdu.setOutgoingAndSend(ISO7816.OFFSET_EXT_CDATA,(short)1);
 	    ISOException.throwIt(ISO7816.SW_WRONG_DATA);
     }
-    /*
-    	private void updatePin(byte[] buf, APDU apdu) throws ISOException{
-	    byte[]buf=apdu.getBuffer();
-	    byte offset=ISO7816.OFFSET_LC;
-	    short length=(short) buf[offset];
-	    if(match(buf,(byte)(offset+1),length)){
-		    offset+=(byte)(length+1);
-		    length=(short)buf[offset];
-		    update(buf,(byte)(offset+1),length);
-		    return;
-	    }
-	    buf[ISO7816.OFFSET_CDATA]=getTryRemaining();
-	    apdu.setOutgoingAndSend(ISO7816.OFFSET_CDATA,(short)1);
-	    ISOException.throwIt(ISO7816.SW_WRONG_DATA);
-    }
-    
-    */
-    
-    
     
     
     //kiem tra ma pin nhap vao va ma pin hien tai
@@ -318,6 +302,16 @@ public class CitizenCard extends Applet implements ExtendedLength
 			}
 		}
 		return (short)(length-outOffset+1);
+	}
+	
+	private void getCardId(APDU apdu) {
+		if (cardId[0] == 0x00) {
+			ISOException.throwIt(ISO7816.SW_RECORD_NOT_FOUND); 
+		}
+		
+		byte[] buffer = apdu.getBuffer();
+		Util.arrayCopyNonAtomic(cardId, (short) 0, buffer, (short) 0 , (short) 12);
+		apdu.setOutgoingAndSend((short) 0, (short) 12);
 	}
 	
 	//giai ma --->lay du lieu ---> gui den app
@@ -403,8 +397,9 @@ public class CitizenCard extends Applet implements ExtendedLength
 		case BANK_INFORMATION:
 			createInformation(buf, apdu);
 			break;
+			//00 01 06 00
 		case SIGNATURE:
-			createSignature(apdu);
+			createSignature(buf, apdu);
 			break;
 		default:
 			ISOException.throwIt(ISO7816.SW_INCORRECT_P1P2);
@@ -437,6 +432,8 @@ public class CitizenCard extends Applet implements ExtendedLength
 	     key.setKey(pin, (short)0);
 	     informationDataLength = (short) (length - 7);
 	     
+	     // Get card ID
+	     Util.arrayCopyNonAtomic(buf, offset, cardId, (short) 0, (short) 12);     
 	     
 	     informationDataLength = aes.encode(buf, (short)(offset), (short) (length - 7),  key, personalInformation);
 	     normalizeData(personalInformation, (short)(informationDataLength+1));
@@ -483,23 +480,20 @@ public class CitizenCard extends Applet implements ExtendedLength
 		return isValidated;
 	}
 	
-	private void createSignature(APDU apdu) throws ISOException {
-		if (nameCard[0x00] == 0x00) {	
-			ISOException.throwIt(ISO7816.SW_COMMAND_NOT_ALLOWED);
-		}
-		
-		byte[] buffer = apdu.getBuffer();
-		short length = buffer[ISO7816.OFFSET_LC];
+	private void createSignature(byte[] buffer, APDU apdu) throws ISOException {
+		short length = dataLen;
 		
 		if (length == (byte) 0x00) {
 			ISOException.throwIt(ISO7816.SW_DATA_INVALID);
 		}
+		
 		signature.init(privateKey, Signature.MODE_SIGN);
-		signature.sign(buffer, (short) ISO7816.OFFSET_CDATA, length, signatureBuf, (short) 0);
+		signature.sign(buffer, (short) ISO7816.OFFSET_EXT_CDATA, length, signatureBuf, (short) 0);
 		apdu.setOutgoing();
 		apdu.setOutgoingLength((short) signatureBuf.length);
 		apdu.sendBytesLong(signatureBuf, (short) 0, (short) signatureBuf.length);
 	}
+	
 	
 	public static void install(byte[] bArray, short bOffset, byte bLength) 
 	{
