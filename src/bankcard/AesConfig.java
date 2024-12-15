@@ -9,11 +9,9 @@ import javacardx.crypto.Cipher;
 
 public class AesConfig {
     private final Cipher cipher;
-    private final byte[] template;
 
     public AesConfig() {
         cipher = Cipher.getInstance(Cipher.ALG_AES_BLOCK_128_ECB_NOPAD, false);
-        template = JCSystem.makeTransientByteArray((short) 256, JCSystem.CLEAR_ON_RESET);
     }
 
     // Function to apply PKCS7 padding
@@ -22,10 +20,7 @@ public class AesConfig {
         byte paddingValue = (byte) 0x00; // Padding byte value
 
         // Copy original data and add padding
-        Util.arrayCopyNonAtomic(input, offset, template, (short) 0, length);
-        for (short i = length; i < paddedLength; i++) {
-            template[i] = paddingValue;
-        }
+        Util.arrayFillNonAtomic(input, (short) length, paddedLength, (byte) 0x00);
 
         return paddedLength;
     }
@@ -56,7 +51,7 @@ public class AesConfig {
         cipher.init(key, Cipher.MODE_ENCRYPT);
 
         // Perform encryption, copy result into the output array
-        cipher.doFinal(template, (short) 0, paddedLength, output, (short) 0);
+        cipher.doFinal(input, (short) 0, paddedLength, output, (short) 0);
 
         // Return the padded length, indicating the length of the encrypted data
         return paddedLength;

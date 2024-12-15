@@ -331,17 +331,6 @@ public class CitizenCard extends Applet implements ExtendedLength
 		
 		informationDataLength = aes.decode(personalInformation,(short)0,(short)informationDataLength,key, buffer,(short)0);
 
-		// offset += (short) (buffer[offset] + 1);
-		// buffer[offset] = (byte) getLength(aes.decode(nameCard,(short)0,(short)nameCard.length,key, buffer,(short)(offset+1)),(short)(offset+1));
-
-        // offset += (short) (buffer[offset] + 1);
-		// buffer[offset] = (byte) getLength(aes.decode(createDate,(short)0,(short)createDate.length,key, buffer,(short)(offset+1)),(short)(offset+1));
-		
-		// offset += (short) (buffer[offset] + 1);
-		// buffer[offset] = (byte) getLength(aes.decode(expirationDate,(short)0,(short)expirationDate.length,key, buffer,(short)(offset+1)),(short)(offset+1));
-
-		// offset += (short) (buffer[offset] + 1);
-		// buffer[offset] = (byte) getLength(aes.decode(numberBalance,(short)0,(short)numberBalance.length,key, buffer,(short)(offset+1)),(short)(offset+1));
 		apdu.setOutgoingAndSend((short) 0, (short) informationDataLength);
 	}
 	
@@ -510,7 +499,5 @@ public class CitizenCard extends Applet implements ExtendedLength
 	{
 		new CitizenCard().register(bArray, (short) (bOffset + 1), bArray[bOffset]);
 	}
-
-	
 
 }
