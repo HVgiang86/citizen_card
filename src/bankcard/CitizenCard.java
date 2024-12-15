@@ -52,7 +52,7 @@ public class CitizenCard extends Applet implements ExtendedLength
     private byte[] personalInformation;
     
     
-    private short MAX_SIZE = (short)4096;
+    private short MAX_SIZE = (short)15360;
     private byte[] avatar;
     private byte[] avatarBuffer;
     private short sizeAvatar = 0;
@@ -75,12 +75,7 @@ public class CitizenCard extends Applet implements ExtendedLength
         key=(AESKey)KeyBuilder.buildKey(KeyBuilder.TYPE_AES, (short) 128, false);
       
         // numberCard= new byte[16];
-        // nameCard = new byte[16];
-        // numberBalance = new byte[16];
-        // createDate = new byte[16];
-        // expirationDate = new byte[16];
-        // avatar = new byte[MAX_SIZE];
-        // avatarBuffer = new byte[MAX_SIZE];
+        avatarBuffer = new byte[MAX_SIZE];
         personalInformation = new byte[1024];
         signature = Signature.getInstance(Signature.ALG_RSA_SHA_PKCS1, false);
         
@@ -123,7 +118,7 @@ public class CitizenCard extends Applet implements ExtendedLength
 		// Kim tra xem APDU có phi là Extended APDU hay không
 		if (buf[ISO7816.OFFSET_LC] == 0x00) {  // Nu LC là 0x00 thì là Extended APDU
 			// Kim tra xem LC có phi 2 byte hay 3 byte
-			if (buf[ISO7816.OFFSET_LC + 1] == 0x00) {
+			if (buf[ISO7816.OFFSET_LC + 1] != 0x00) {
 				// Nu LC có 3 byte (do byte th 2 có giá tr 0x00)
 				dataLen = UtilLC.getLong(buf, (short) (ISO7816.OFFSET_LC) ); // Ly 3 byte
 			} else {
@@ -138,11 +133,13 @@ public class CitizenCard extends Applet implements ExtendedLength
 		
 		byte[] buf_temp = new byte[(short) (totalDataLen +8)];
 		byteRead = (short) (apdu.setIncomingAndReceive());
-		// Bt u x lý d liu trong APDU
 		Util.arrayCopy(buf, ISO7816.OFFSET_CLA, buf_temp, (short) 0, (short) 7);
+		Util.arrayCopy(buf, ISO7816.OFFSET_EXT_CDATA, buf_temp, pointer, byteRead);
+		totalDataLen -= byteRead; 
+		byteRead = apdu.receiveBytes((short) 0);
+		
 		while (totalDataLen > 0) {
-			// c d liu t APDU và sao chép vào buf_temp
-			Util.arrayCopy(buf, ISO7816.OFFSET_EXT_CDATA, buf_temp, pointer, byteRead);
+			Util.arrayCopy(buf, (short)0, buf_temp, pointer, byteRead);
 			
 			pointer += byteRead;
 			totalDataLen -= byteRead;
@@ -150,7 +147,6 @@ public class CitizenCard extends Applet implements ExtendedLength
 			byteRead = apdu.receiveBytes((short) 0);
 		}
 
-		// Tr v d liu ã c lu trong buf_temp
 		return buf_temp;
 	}
     // 00 02 05 07
@@ -183,7 +179,6 @@ public class CitizenCard extends Applet implements ExtendedLength
     }
 	private void update(byte[] buf, APDU apdu) throws ISOException{
 		
-		// byte[]buf=apdu.getBuffer();
 		switch(buf[ISO7816.OFFSET_P1]){
 		case BANK_INFORMATION:
 			break;
@@ -196,14 +191,17 @@ public class CitizenCard extends Applet implements ExtendedLength
 		default:
 			ISOException.throwIt(ISO7816.SW_INCORRECT_P1P2);
 		}
+		
 		byte P2=buf[ISO7816.OFFSET_P2];
 		if(P2==AVATAR){
-			updateAvatar(apdu);
+			updateAvatar(buf, apdu);
 			return;
 		}
-		if(buf[ISO7816.OFFSET_LC]==(byte)0x00){
-			ISOException.throwIt(ISO7816.SW_DATA_INVALID);
-		}
+		
+		// if(buf[ISO7816.OFFSET_LC]==(byte)0x00){
+			// ISOException.throwIt(ISO7816.SW_DATA_INVALID);
+		// }
+		
 		switch(P2){
 		case INFORMATION:
 			updateInformation(buf);
@@ -383,18 +381,13 @@ public class CitizenCard extends Applet implements ExtendedLength
 	    }
 	    return lengthTwo;
     }
-	private void updateAvatar(APDU apdu){
-	    byte[]buf=apdu.getBuffer();
-	    short received=apdu.setIncomingAndReceive();
-	    short offset=apdu.getOffsetCdata();
-	    short pointer=0;
-	    while(received>0){
-		    Util.arrayCopyNonAtomic(buf,offset,avatarBuffer,pointer,received);
-		    pointer+=received;
-		    received=apdu.receiveBytes(offset);
-	    }
-        this.sizeAvatar = pointer;
-	    aes.encode(avatarBuffer,(short)0,MAX_SIZE,key,avatar);
+    
+    // 00 03 05 09
+	private void updateAvatar(byte[] buf, APDU apdu){
+	    Util.arrayCopyNonAtomic(buf,ISO7816.OFFSET_EXT_CDATA,avatarBuffer,(short) 0,dataLen);
+        this.sizeAvatar = dataLen;
+	    short paddedAvatar = aes.encode(avatarBuffer,(short)0,dataLen,key,avatar);
+	    normalizeData(avatarBuffer, dataLen);
     }
     
     private void verify(byte[] buf, APDU apdu){

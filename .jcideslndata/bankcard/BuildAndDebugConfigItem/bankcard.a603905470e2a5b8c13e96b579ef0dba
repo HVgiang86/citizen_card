@@ -1,9 +1,10 @@
 <JavaCardProject name="bankcard" version="2">
 <USER location="src/">
 <PKG name="bankcard" aid="11 22 33 44 55" major="1" minor="0">
+<APPLET aid="11 22 33 44 55 00" instanceaid="" parameter="" authority="" privileges="" index="19432" name="CitizenCard"/>
 <CLASS name="AesConfig"/>
 <CLASS name="RsaConfig"/>
-<APPLET aid="11 22 33 44 55 00" instanceaid="" parameter="" authority="" privileges="" index="19432" name="CitizenCard"/>
+<CLASS name="UtilLC"/>
 </PKG>
 </USER>
 <BuildPropertyConfig>

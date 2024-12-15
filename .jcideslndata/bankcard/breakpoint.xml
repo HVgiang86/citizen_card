@@ -6,38 +6,17 @@
                 <packages>
                     <package name="bankcard">
                         <files>
-                            <file name="bankcard.java">
+                            <file name="CitizenCard.java">
                                 <lines>
                                     <line>
-                                        <lineNumber>249</lineNumber>
+                                        <lineNumber>386</lineNumber>
                                         <valid>1</valid>
                                         <invalidTimes>0</invalidTimes>
                                         <Condition></Condition>
                                         <logMessage></logMessage>
                                     </line>
                                     <line>
-                                        <lineNumber>245</lineNumber>
-                                        <valid>1</valid>
-                                        <invalidTimes>0</invalidTimes>
-                                        <Condition></Condition>
-                                        <logMessage></logMessage>
-                                    </line>
-                                    <line>
-                                        <lineNumber>243</lineNumber>
-                                        <valid>1</valid>
-                                        <invalidTimes>0</invalidTimes>
-                                        <Condition></Condition>
-                                        <logMessage></logMessage>
-                                    </line>
-                                    <line>
-                                        <lineNumber>198</lineNumber>
-                                        <valid>1</valid>
-                                        <invalidTimes>0</invalidTimes>
-                                        <Condition></Condition>
-                                        <logMessage></logMessage>
-                                    </line>
-                                    <line>
-                                        <lineNumber>366</lineNumber>
+                                        <lineNumber>91</lineNumber>
                                         <valid>1</valid>
                                         <invalidTimes>0</invalidTimes>
                                         <Condition></Condition>

@@ -2,8 +2,8 @@ package bankcard;
 public class UtilLC {
 	// Hàm ly giá tr 2 byte thành short
     public static short getShort(byte[] buf, short offset) {
-        short highByte = (short) (buf[offset] & 0xFF);
-        short lowByte = (short) (buf[offset + 1] & 0xFF);
+        short highByte = (short) (buf[offset+1] & 0xFF);
+        short lowByte = (short) (buf[offset +2] & 0xFF);
         return (short) ((highByte << 8) | lowByte); // Kt hp 2 byte thành mt short
     }
 
