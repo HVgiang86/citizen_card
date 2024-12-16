@@ -411,6 +411,7 @@ public class CitizenCard extends Applet implements ExtendedLength
 			// ISOException.throwIt(ISO7816.SW_COMMAND_NOT_ALLOWED);
 		// }
 		// byte[]buf= processAPDU(apdu);
+		byte[] apduBuf = apdu.getBuffer();
 		if(dataLen==(byte)0x00){
 		     ISOException.throwIt(ISO7816.SW_DATA_INVALID);
 	     }
@@ -444,6 +445,8 @@ public class CitizenCard extends Applet implements ExtendedLength
 	     publicKey=(RSAPublicKey) keyPair.getPublic();
 	    
 	     length=RsaConfig.serializePublicKey(publicKey,buf,(short)0);
+	     
+	     Util.arrayCopyNonAtomic(buf, (short) 0, apduBuf, (short) 0, length);
 	    //gui public key -> App, App nhan duoc public key => thong bao thanh cong khoi tao thong tin
 	     apdu.setOutgoingAndSend((short)0,length);
 	}
