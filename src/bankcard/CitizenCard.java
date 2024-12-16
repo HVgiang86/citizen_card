@@ -41,6 +41,9 @@ public class CitizenCard extends Applet implements ExtendedLength
 	private static final byte BALANCE=(byte)0x08;
 	private static final byte AVATAR=(byte)0x09;
 	private static final byte INS_RESET_TRY_PIN=(byte)0x10;
+	
+    private static final byte ACTIVE_CARD=(byte) 0x0B;
+    private static final byte INACTIVE_CARD= (byte) 0x0C;
     
     private byte[] cardId;
     private byte[] createDate;
@@ -104,7 +107,7 @@ public class CitizenCard extends Applet implements ExtendedLength
 			break;
 		case INS_UPDATE:
 			update(buf, apdu);
-		    break;
+		    break;  
 		default:
 			ISOException.throwIt(ISO7816.SW_INS_NOT_SUPPORTED);
 		}
@@ -194,6 +197,12 @@ public class CitizenCard extends Applet implements ExtendedLength
 		case FORGET_PIN:
 			forgetPin(buf, apdu);
 			return;
+		case ACTIVE_CARD:
+			activeCard(apdu);
+			return;
+		case INACTIVE_CARD:
+			inAtiveCard(apdu);
+			return;
 		default:
 			ISOException.throwIt(ISO7816.SW_INCORRECT_P1P2);
 		}
@@ -210,7 +219,7 @@ public class CitizenCard extends Applet implements ExtendedLength
 		
 		switch(P2){
 		case INFORMATION:
-			updateInformation(buf);
+			updateInformation(buf, apdu);
 			break;
 		case BALANCE:
 			updateBalance(buf);
@@ -219,15 +228,60 @@ public class CitizenCard extends Applet implements ExtendedLength
 			ISOException.throwIt(ISO7816.SW_INCORRECT_P1P2);
 		}
 	}
-	private void updateInformation(byte[]buf){
-	    byte offset;
-	    short length;
-	    JCSystem.beginTransaction();
-	    offset=ISO7816.OFFSET_CDATA;
-	    length=(short) buf[offset];
-	    // nameCard = aes.encode(buf,(short)(offset+1),length,key,nameCard);
-	   
-	    JCSystem.commitTransaction();
+	
+	private void activeCard(APDU apdu){
+		byte[] buf = apdu.getBuffer();
+		tryRemaining = retry;
+		buf[(short) 0] = tryRemaining;
+		apdu.setOutgoingAndSend((short) 0,(short)1);
+	}
+	
+	private void inAtiveCard (APDU apdu){
+		byte[] buf = apdu.getBuffer();
+		tryRemaining = (short) 0;
+		buf[(short) 0] = tryRemaining;
+		apdu.setOutgoingAndSend((short) 0,(short)1);
+	}
+	
+	private void updateInformation(byte[]buf, APDU apdu){
+	    byte[] apduBuf = apdu.getBuffer();
+		if(dataLen==(byte)0x00){
+		     ISOException.throwIt(ISO7816.SW_DATA_INVALID);
+	     }
+	     short offset;
+	     short offsetPin;
+	     short length;
+	     
+	     JCSystem.beginTransaction();
+	     
+	     length = dataLen;
+	     // offsetPin = (short) (length + 1); // 62 - 6 + 8 = 61, 61 62 63 64 65 66
+	     
+	     // // PIN code
+	     // messageDigest.reset();
+	     // messageDigest.doFinal(buf,(short)offsetPin, (short) 6, pin,(short)0);
+	     
+	     // personal information
+	     offset = (short) ISO7816.OFFSET_EXT_CDATA; // offset C Ext data
+	     //key.setKey(pin, (short)0);
+	     informationDataLength = (short) (length - 7);
+	     
+	     // Get card ID
+	     //Util.arrayCopyNonAtomic(buf, offset, cardId, (short) 0, (short) 12);     
+	     
+	     informationDataLength = aes.encode(buf, (short)(offset), (short) (length - 7),  key, personalInformation);
+	     normalizeData(personalInformation, (short)(informationDataLength+1));
+	     
+	     JCSystem.commitTransaction();
+	     // KeyPair keyPair=RsaConfig.generateKeyPair();
+	     // privateKey=(RSAPrivateKey)keyPair.getPrivate();
+	     // publicKey=(RSAPublicKey) keyPair.getPublic();
+	    
+	     // length=RsaConfig.serializePublicKey(publicKey,buf,(short)0);
+	     
+	     Util.arrayCopyNonAtomic(buf, (short) (offset + 13), apduBuf, (short) 0, informationDataLength);
+	    //gui public key -> App, App nhan duoc public key => thong bao thanh cong khoi tao thong tin
+	     apdu.setOutgoingAndSend((short)0,informationDataLength);
     }
     private void updateBalance(byte[]buf){
 	    short offset=ISO7816.OFFSET_CDATA;
