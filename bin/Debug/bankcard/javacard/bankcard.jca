@@ -1,5 +1,5 @@
 // converted by version 1.3
-// on Mon Dec 16 23:23:31 ICT 2024
+// on Tue Dec 17 00:19:15 ICT 2024
 
 .package bankcard {
 	.aid 0x11:0x22:0x33:0x44:0x55;
@@ -1624,7 +1624,7 @@
 					sload 4;
 					invokestatic 93;		// javacard/framework/Util.setShort([BSS)S
 					pop;
-					bspush 10;
+					sconst_4;
 					sload_3;
 					sadd;
 					sload 4;
