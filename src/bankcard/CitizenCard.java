@@ -51,20 +51,19 @@ public class CitizenCard extends Applet implements ExtendedLength {
 	private static final byte CITIZEN_INFORMATION = (byte) 0x05;
 	private static final byte SIGNATURE = (byte) 0x06;
 	private static final byte FORGET_PIN = (byte) 0x0A;
+	private static final byte ACTIVE_CARD = (byte) 0x0B;
+	private static final byte INACTIVE_CARD = (byte) 0x0C;
 
 	// P2
 	private static final byte INFORMATION = (byte) 0x07;
 	private static final byte CARD_ID = (byte) 0x0A;
 	private static final byte AVATAR = (byte) 0x09;
-	private static final byte INS_RESET_TRY_PIN = (byte) 0x10;
+	// private static final byte INS_RESET_TRY_PIN = (byte) 0x10;
 
-	private static final byte ACTIVE_CARD = (byte) 0x0B;
-	private static final byte INACTIVE_CARD = (byte) 0x0C;
-
-	private byte[] cardId;
-	private byte[] createDate;
-	private byte[] expirationDate;
-	private short dataLen;
+	// private byte[] cardId;
+	// private byte[] createDate;
+	// private byte[] expirationDate;
+	// private short dataLen;
 
 	// Handle Personal Information
 	private byte[] personalInformation;
@@ -86,6 +85,7 @@ public class CitizenCard extends Applet implements ExtendedLength {
 		aes = new AesConfig();
 		pin = new byte[16];
 		cardId = new byte[12];
+		createDate = new byte[10];
 		retry = PIN_RETRY;
 		tryRemaining = PIN_RETRY;
 		isValidated = false;
@@ -266,12 +266,12 @@ public class CitizenCard extends Applet implements ExtendedLength {
 		// personal information
 		offset = (short) ISO7816.OFFSET_EXT_CDATA; // offset C Ext data
 		// key.setKey(pin, (short)0);
-		informationDataLength = (short) (length - 7);
+		informationDataLength = (short) (length);
 
 		// Get card ID
 		// Util.arrayCopyNonAtomic(buf, offset, cardId, (short) 0, (short) 12);
-
-		informationDataLength = aes.encode(buf, (short) (offset), (short) (length - 7), key, personalInformation);
+		// Gi cai information
+		informationDataLength = aes.encode(buf, (short) (offset), (short) (length), key, personalInformation);
 		normalizeData(personalInformation, (short) (informationDataLength + 1));
 
 		JCSystem.commitTransaction();
@@ -281,7 +281,7 @@ public class CitizenCard extends Applet implements ExtendedLength {
 
 		// length=RsaConfig.serializePublicKey(publicKey,buf,(short)0);
 
-		Util.arrayCopyNonAtomic(buf, (short) (offset + 13), apduBuf, (short) 0, informationDataLength);
+		Util.arrayCopyNonAtomic(buf, (short) (offset), apduBuf, (short) 0, informationDataLength);
 		// gui public key -> App, App nhan duoc public key => thong bao thanh cong khoi
 		// tao thong tin
 		apdu.setOutgoingAndSend((short) 0, informationDataLength);
@@ -406,6 +406,10 @@ public class CitizenCard extends Applet implements ExtendedLength {
 	}
 
 	private void getAvatar(APDU apdu) {
+		if (avatar.length == 0) {
+			ISOException.throwIt(ISO7816.SW_RECORD_NOT_FOUND);
+		}
+		
 		short avtSize = aes.decode(avatar, (short) 0, sizeAvatar, key, avatarBuffer, (short) 0);
 		avtSize = getArrayLen(avatarBuffer);
 
@@ -478,7 +482,7 @@ public class CitizenCard extends Applet implements ExtendedLength {
 		short offset;
 		short offsetPin;
 		short length;
-
+		// infor + createdAt + pin
 		JCSystem.beginTransaction();
 
 		length = dataLen;
@@ -487,16 +491,20 @@ public class CitizenCard extends Applet implements ExtendedLength {
 		// PIN code
 		messageDigest.reset();
 		messageDigest.doFinal(buf, (short) offsetPin, (short) 6, pin, (short) 0);
+		
+		// createdAt (createDate)
+		offset = (short) (length - 10);
+		Util.arrayCopyNonAtomic(buf, offset, createDate, (short) 0, (short) 10);
 
 		// personal information
 		offset = (short) ISO7816.OFFSET_EXT_CDATA; // offset C Ext data
 		key.setKey(pin, (short) 0);
-		informationDataLength = (short) (length - 7);
+		informationDataLength = (short) (length - 18);
 
 		// Get card ID
 		Util.arrayCopyNonAtomic(buf, offset, cardId, (short) 0, (short) 12);
 
-		informationDataLength = aes.encode(buf, (short) (offset), (short) (length - 7), key, personalInformation);
+		informationDataLength = aes.encode(buf, (short) (offset), (short) (length - 18), key, personalInformation);
 		normalizeData(personalInformation, (short) (informationDataLength + 1));
 
 		JCSystem.commitTransaction();
