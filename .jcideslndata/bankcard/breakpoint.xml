@@ -9,14 +9,18 @@
                             <file name="CitizenCard.java">
                                 <lines>
                                     <line>
-                                        <lineNumber>348</lineNumber>
-                                        <valid>0</valid>
+                                        <lineNumber>50</lineNumber>
+                                        <valid>1</valid>
                                         <invalidTimes>0</invalidTimes>
                                         <Condition></Condition>
                                         <logMessage></logMessage>
                                     </line>
+                                </lines>
+                            </file>
+                            <file name="RsaConfig.java">
+                                <lines>
                                     <line>
-                                        <lineNumber>307</lineNumber>
+                                        <lineNumber>14</lineNumber>
                                         <valid>1</valid>
                                         <invalidTimes>0</invalidTimes>
                                         <Condition></Condition>

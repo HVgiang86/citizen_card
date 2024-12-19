@@ -1,5 +1,5 @@
 // converted by version 1.3
-// on Tue Dec 17 00:19:15 ICT 2024
+// on Tue Dec 17 19:20:07 ICT 2024
 
 .package bankcard {
 	.aid 0x11:0x22:0x33:0x44:0x55;
@@ -21,11 +21,11 @@
 		// 0
 		instanceFieldRef 1.1 AesConfig/cipher;
 		// 1
-		instanceFieldRef short CitizenCard/MAX_SIZE;
-		// 2
-		instanceFieldRef short CitizenCard/sizeAvatar;
-		// 3
 		instanceFieldRef short CitizenCard/informationDataLength;
+		// 2
+		instanceFieldRef short CitizenCard/IMAGE_MAX_SIZE;
+		// 3
+		instanceFieldRef short CitizenCard/sizeAvatar;
 		// 4
 		instanceFieldRef AesConfig CitizenCard/aes;
 		// 5
@@ -139,124 +139,118 @@
 			.descriptor	Ljavacard/framework/APDU;	2.10;
 
 		// 49
-		staticMethodRef CitizenCard/getBalance(Ljavacard/framework/APDU;)V;
-			.descriptor	Ljavacard/framework/APDU;	2.10;
-
-		// 50
 		staticMethodRef CitizenCard/getAvatar(Ljavacard/framework/APDU;)V;
 			.descriptor	Ljavacard/framework/APDU;	2.10;
 
-		// 51
+		// 50
 		staticMethodRef CitizenCard/getCardId(Ljavacard/framework/APDU;)V;
 			.descriptor	Ljavacard/framework/APDU;	2.10;
 
-		// 52
+		// 51
 		staticMethodRef CitizenCard/updatePin([BLjavacard/framework/APDU;)V;
 			.descriptor	Ljavacard/framework/APDU;	2.10;
 
-		// 53
+		// 52
 		staticMethodRef CitizenCard/forgetPin([BLjavacard/framework/APDU;)V;
 			.descriptor	Ljavacard/framework/APDU;	2.10;
 
-		// 54
+		// 53
 		staticMethodRef CitizenCard/updateAvatar([BLjavacard/framework/APDU;)V;
 			.descriptor	Ljavacard/framework/APDU;	2.10;
 
-		// 55
+		// 54
 		staticMethodRef CitizenCard/updateInformation([B)V;
-		// 56
-		staticMethodRef CitizenCard/updateBalance([B)V;
-		// 57
+		// 55
 		staticMethodRef 2.8.1()V;		// javacard/framework/JCSystem.beginTransaction()V
-		// 58
+		// 56
 		staticMethodRef 2.8.2()V;		// javacard/framework/JCSystem.commitTransaction()V
-		// 59
+		// 57
 		virtualMethodRef 3.11.4()V;		// reset()V
-		// 60
+		// 58
 		virtualMethodRef 2.10.8(SS)V;		// setOutgoingAndSend(SS)V
-		// 61
+		// 59
 		virtualMethodRef CitizenCard/match([BBS)Z;
-		// 62
+		// 60
 		virtualMethodRef CitizenCard/update([BBS)V;
-		// 63
+		// 61
 		virtualMethodRef CitizenCard/getTryRemaining()B;
-		// 64
+		// 62
 		staticMethodRef 2.16.0([BS[BSS)B;		// javacard/framework/Util.arrayCompare([BS[BSS)B
-		// 65
+		// 63
 		staticMethodRef 2.16.2([BS[BSS)S;		// javacard/framework/Util.arrayCopyNonAtomic([BS[BSS)S
-		// 66
+		// 64
 		staticMethodRef CitizenCard/getArrayLen([B)S;
-		// 67
+		// 65
 		virtualMethodRef AesConfig/decode([BSSLjavacard/security/AESKey;[BS)S;
 			.descriptor	Ljavacard/security/AESKey;	3.20;
 
-		// 68
+		// 66
 		virtualMethodRef 2.10.7()S;		// setOutgoing()S
-		// 69
+		// 67
 		virtualMethodRef 2.10.9(S)V;		// setOutgoingLength(S)V
-		// 70
+		// 68
 		staticMethodRef CitizenCard/getMin(SS)S;
-		// 71
+		// 69
 		virtualMethodRef 2.10.5([BSS)V;		// sendBytesLong([BSS)V
-		// 72
+		// 70
 		virtualMethodRef AesConfig/encode([BSSLjavacard/security/AESKey;[B)S;
 			.descriptor	Ljavacard/security/AESKey;	3.20;
 
-		// 73
+		// 71
 		staticMethodRef CitizenCard/normalizeData([BS)V;
-		// 74
+		// 72
 		staticMethodRef CitizenCard/checkPin([BBS)Z;
-		// 75
+		// 73
 		virtualMethodRef CitizenCard/createInformation([BLjavacard/framework/APDU;)V;
 			.descriptor	Ljavacard/framework/APDU;	2.10;
 
-		// 76
+		// 74
 		staticMethodRef CitizenCard/createSignature([BLjavacard/framework/APDU;)V;
 			.descriptor	Ljavacard/framework/APDU;	2.10;
 
-		// 77
+		// 75
 		staticMethodRef RsaConfig/generateKeyPair()Ljavacard/security/KeyPair;;
 			.descriptor	Ljavacard/security/KeyPair;	3.16;
 
-		// 78
+		// 76
 		virtualMethodRef 3.16.2()Ljavacard/security/PrivateKey;;		// getPrivate()Ljavacard/security/PrivateKey;
 			.descriptor	Ljavacard/security/PrivateKey;	3.2;
 
-		// 79
+		// 77
 		classRef 3.8;		// javacard/security/RSAPrivateKey
-		// 80
+		// 78
 		virtualMethodRef 1.1.1([BSS[BS)S;		// doFinal([BSS[BS)S
-		// 81
+		// 79
 		virtualMethodRef 3.16.3()Ljavacard/security/PublicKey;;		// getPublic()Ljavacard/security/PublicKey;
 			.descriptor	Ljavacard/security/PublicKey;	3.3;
 
-		// 82
+		// 80
 		classRef 3.9;		// javacard/security/RSAPublicKey
-		// 83
+		// 81
 		staticMethodRef AesConfig/removePadding([BS)S;
-		// 84
+		// 82
 		staticMethodRef RsaConfig/serializePublicKey(Ljavacard/security/RSAPublicKey;[BS)S;
 			.descriptor	Ljavacard/security/RSAPublicKey;	3.9;
 
-		// 85
+		// 83
 		virtualMethodRef 3.15.3(Ljavacard/security/Key;B)V;		// init(Ljavacard/security/Key;B)V
 			.descriptor	Ljavacard/security/Key;	3.0;
 
-		// 86
+		// 84
 		virtualMethodRef 3.15.5([BSS[BS)S;		// sign([BSS[BS)S
-		// 87
+		// 85
 		classRef CitizenCard;
-		// 88
+		// 86
 		staticMethodRef CitizenCard/<init>()V;
-		// 89
+		// 87
 		virtualMethodRef 2.3.2([BSB)V;		// register([BSB)V
-		// 90
+		// 88
 		classRef 3.16;		// javacard/security/KeyPair
-		// 91
+		// 89
 		staticMethodRef 3.16.0(BS)V;		// javacard/security/KeyPair.<init>(BS)V
-		// 92
+		// 90
 		virtualMethodRef 3.16.1()V;		// genKeyPair()V
-		// 93
+		// 91
 		staticMethodRef 2.16.6([BSS)S;		// javacard/framework/Util.setShort([BSS)S
 	}
 
@@ -371,7 +365,7 @@
 					sload 6;
 					aload 5;
 					sconst_0;
-					invokevirtual 80;		// doFinal([BSS[BS)S
+					invokevirtual 78;		// doFinal([BSS[BS)S
 					pop;
 					sload 6;
 					sreturn;
@@ -399,12 +393,12 @@
 					sload_3;
 					aload 5;
 					sload 6;
-					invokevirtual 80;		// doFinal([BSS[BS)S
+					invokevirtual 78;		// doFinal([BSS[BS)S
 					pop;
 					aload_0;
 					aload 5;
 					sload_3;
-					invokespecial 83;		// bankcard/AesConfig.removePadding([BS)S
+					invokespecial 81;		// bankcard/AesConfig.removePadding([BS)S
 					sreturn;
 		}
 
@@ -413,11 +407,11 @@
 	.class public CitizenCard 1 extends 2.3 {		// extends javacard/framework/Applet
 
 		.fields {
-			private final byte[] pin 0;		// [B
-			private final 3.11 messageDigest 1;		// Ljavacard/security/MessageDigest;
-			private final 3.20 key 2;		// Ljavacard/security/AESKey;
-			private final AesConfig aes 3;		// Lbankcard/AesConfig;
-			private byte[] cardId 4;		// [B
+			private final 3.11 messageDigest 0;		// Ljavacard/security/MessageDigest;
+			private final 3.20 key 1;		// Ljavacard/security/AESKey;
+			private final AesConfig aes 2;		// Lbankcard/AesConfig;
+			private final byte[] cardId 3;		// [B
+			private final byte[] pin 4;		// [B
 			private byte[] createDate 5;		// [B
 			private byte[] expirationDate 6;		// [B
 			private byte[] personalInformation 7;		// [B
@@ -427,28 +421,27 @@
 			private final byte[] signatureBuf 11;		// [B
 			private 3.8 privateKey 12;		// Ljavacard/security/RSAPrivateKey;
 			private 3.9 publicKey 13;		// Ljavacard/security/RSAPublicKey;
-			private byte retry 14;		// B
-			private byte tryRemaining 15;		// B
-			private boolean isValidated 16;		// Z
+			private boolean isValidated 14;		// Z
+			private byte retry 15;		// B
+			private byte tryRemaining 16;		// B
 			private short dataLen 17;		// S
-			private short MAX_SIZE 18;		// S
-			private short sizeAvatar 19;		// S
-			private short informationDataLength 20;		// S
+			private short informationDataLength 18;		// S
+			private short IMAGE_MAX_SIZE 19;		// S
+			private short sizeAvatar 20;		// S
 			private static final byte[] PIN_DEFAULT = {49,50,51,52,53,54};		// [B
 			private static final byte PIN_RETRY = 5;		// B
 			private static final byte INS_VERIFY = 0;		// B
 			private static final byte INS_CREATE = 1;		// B
 			private static final byte INS_GET = 2;		// B
 			private static final byte INS_UPDATE = 3;		// B
+			private static final byte INS_RESET_TRY_PIN = 16;		// B
 			private static final byte PIN = 4;		// B
-			private static final byte FORGET_PIN = 10;		// B
-			private static final byte BANK_INFORMATION = 5;		// B
+			private static final byte CITIZEN_INFORMATION = 5;		// B
 			private static final byte SIGNATURE = 6;		// B
+			private static final byte FORGET_PIN = 10;		// B
 			private static final byte INFORMATION = 7;		// B
 			private static final byte CARD_ID = 10;		// B
-			private static final byte BALANCE = 8;		// B
 			private static final byte AVATAR = 9;		// B
-			private static final byte INS_RESET_TRY_PIN = 16;		// B
 		}
 
 		.publicMethodTable 7 {
@@ -486,14 +479,14 @@
 				L0:	aload_0;
 					invokespecial 20;		// javacard/framework/Applet.<init>()V
 					aload_0;
+					sconst_0;
+					putfield_s 1;		// short bankcard/CitizenCard.informationDataLength
+					aload_0;
 					sspush 15360;
-					putfield_s 1;		// short bankcard/CitizenCard.MAX_SIZE
+					putfield_s 2;		// short bankcard/CitizenCard.IMAGE_MAX_SIZE
 					aload_0;
 					sconst_0;
-					putfield_s 2;		// short bankcard/CitizenCard.sizeAvatar
-					aload_0;
-					sconst_0;
-					putfield_s 3;		// short bankcard/CitizenCard.informationDataLength
+					putfield_s 3;		// short bankcard/CitizenCard.sizeAvatar
 					aload_0;
 					new 29;		// bankcard/AesConfig
 					dup;
@@ -538,11 +531,11 @@
 					checkcast 0 26;		// T_CLASSORINTERFACE javacard/security/AESKey
 					putfield_a 11;		// reference bankcard/CitizenCard.key
 					aload_0;
-					getfield_s_this 1;		// short bankcard/CitizenCard.MAX_SIZE
+					getfield_s_this 2;		// short bankcard/CitizenCard.IMAGE_MAX_SIZE
 					newarray 11;
 					putfield_a 12;		// reference bankcard/CitizenCard.avatarBuffer
 					aload_0;
-					getfield_s_this 1;		// short bankcard/CitizenCard.MAX_SIZE
+					getfield_s_this 2;		// short bankcard/CitizenCard.IMAGE_MAX_SIZE
 					newarray 11;
 					putfield_a 13;		// reference bankcard/CitizenCard.avatar
 					aload_0;
@@ -620,33 +613,21 @@
 					invokevirtual 41;		// getBuffer()[B
 					astore 5;
 				L4:	aload 5;
-					sconst_4;
-					baload;
-					ifne L8;
-				L5:	aload 5;
 					sconst_5;
 					baload;
-					ifeq L7;
-				L6:	aload_0;
+					ifeq L6;
+				L5:	aload_0;
 					aload 5;
 					sconst_4;
 					invokestatic 42;		// bankcard/UtilLC.getLong([BS)S
 					putfield_s 17;		// short bankcard/CitizenCard.dataLen
-					goto L9;
-				L7:	aload_0;
+					goto L7;
+				L6:	aload_0;
 					aload 5;
 					sconst_4;
 					invokestatic 44;		// bankcard/UtilLC.getShort([BS)S
 					putfield_s 17;		// short bankcard/CitizenCard.dataLen
-					goto L9;
-				L8:	aload_0;
-					aload 5;
-					sconst_4;
-					baload;
-					sspush 255;
-					sand;
-					putfield_s 17;		// short bankcard/CitizenCard.dataLen
-				L9:	getfield_s_this 17;		// short bankcard/CitizenCard.dataLen
+				L7:	getfield_s_this 17;		// short bankcard/CitizenCard.dataLen
 					sstore 4;
 					sload 4;
 					bspush 16;
@@ -656,12 +637,12 @@
 					ssub;
 					sadd;
 					sstore 6;
-				L10:	sload 6;
+				L8:	sload 6;
 					bspush 8;
 					sadd;
 					newarray 11;
 					astore 7;
-				L11:	aload_1;
+				L9:	aload_1;
 					invokevirtual 45;		// setIncomingAndReceive()S
 					sstore_3;
 					aload 5;
@@ -690,8 +671,8 @@
 					sconst_0;
 					invokevirtual 47;		// receiveBytes(S)S
 					sstore_3;
-					goto L13;
-				L12:	aload 5;
+					goto L11;
+				L10:	aload 5;
 					sconst_0;
 					aload 7;
 					sload_2;
@@ -710,9 +691,9 @@
 					sconst_0;
 					invokevirtual 47;		// receiveBytes(S)S
 					sstore_3;
-				L13:	sload 4;
-					ifgt L12;
-				L14:	aload 7;
+				L11:	sload 4;
+					ifgt L10;
+				L12:	aload 7;
 					areturn;
 		}
 
@@ -735,38 +716,22 @@
 				L3:	aload_2;
 					sconst_3;
 					baload;
-					stableswitch L8 7 10 L4 L5 L6 L7;
+					stableswitch L7 7 10 L4 L7 L5 L6;
 				L4:	aload_0;
 					aload_1;
 					invokespecial 48;		// bankcard/CitizenCard.getInformation(Ljavacard/framework/APDU;)V
-					goto L9;
+					goto L8;
 				L5:	aload_0;
 					aload_1;
-					invokespecial 49;		// bankcard/CitizenCard.getBalance(Ljavacard/framework/APDU;)V
-					goto L9;
+					invokespecial 49;		// bankcard/CitizenCard.getAvatar(Ljavacard/framework/APDU;)V
+					goto L8;
 				L6:	aload_0;
 					aload_1;
-					invokespecial 50;		// bankcard/CitizenCard.getAvatar(Ljavacard/framework/APDU;)V
-					goto L9;
-				L7:	aload_0;
-					aload_1;
-					invokespecial 51;		// bankcard/CitizenCard.getCardId(Ljavacard/framework/APDU;)V
-					goto L9;
-				L8:	sspush 27270;
+					invokespecial 50;		// bankcard/CitizenCard.getCardId(Ljavacard/framework/APDU;)V
+					goto L8;
+				L7:	sspush 27270;
 					invokestatic 32;		// javacard/framework/ISOException.throwIt(S)V
-				L9:	return;
-		}
-
-		.method private getBalance(Ljavacard/framework/APDU;)V {
-			.stack 1;
-			.locals 0;
-
-			.descriptor	Ljavacard/framework/APDU;	2.10;
-
-				L0:	aload_1;
-					invokevirtual 41;		// getBuffer()[B
-					pop;
-					return;
+				L8:	return;
 		}
 
 		.method private update([BLjavacard/framework/APDU;)V {
@@ -783,12 +748,12 @@
 				L2:	aload_0;
 					aload_1;
 					aload_2;
-					invokespecial 52;		// bankcard/CitizenCard.updatePin([BLjavacard/framework/APDU;)V
+					invokespecial 51;		// bankcard/CitizenCard.updatePin([BLjavacard/framework/APDU;)V
 					return;
 				L3:	aload_0;
 					aload_1;
 					aload_2;
-					invokespecial 53;		// bankcard/CitizenCard.forgetPin([BLjavacard/framework/APDU;)V
+					invokespecial 52;		// bankcard/CitizenCard.forgetPin([BLjavacard/framework/APDU;)V
 					return;
 				L4:	sspush 27270;
 					invokestatic 32;		// javacard/framework/ISOException.throwIt(S)V
@@ -802,48 +767,25 @@
 				L7:	aload_0;
 					aload_1;
 					aload_2;
-					invokespecial 54;		// bankcard/CitizenCard.updateAvatar([BLjavacard/framework/APDU;)V
+					invokespecial 53;		// bankcard/CitizenCard.updateAvatar([BLjavacard/framework/APDU;)V
 					return;
 				L8:	sload_3;
-					stableswitch L11 7 8 L9 L10;
+					stableswitch L10 7 7 L9;
 				L9:	aload_0;
 					aload_1;
-					invokespecial 55;		// bankcard/CitizenCard.updateInformation([B)V
-					goto L12;
-				L10:	aload_0;
-					aload_1;
-					invokespecial 56;		// bankcard/CitizenCard.updateBalance([B)V
-					goto L12;
-				L11:	sspush 27270;
+					invokespecial 54;		// bankcard/CitizenCard.updateInformation([B)V
+					goto L11;
+				L10:	sspush 27270;
 					invokestatic 32;		// javacard/framework/ISOException.throwIt(S)V
-				L12:	return;
+				L11:	return;
 		}
 
 		.method private updateInformation([B)V {
-			.stack 2;
-			.locals 1;
-
-				L0:	invokestatic 57;		// javacard/framework/JCSystem.beginTransaction()V
-					sconst_5;
-					sstore_2;
-				L1:	aload_1;
-					sload_2;
-					baload;
-					pop;
-					invokestatic 58;		// javacard/framework/JCSystem.commitTransaction()V
-					return;
-		}
-
-		.method private updateBalance([B)V {
-			.stack 2;
+			.stack 0;
 			.locals 0;
 
-				L0:	aload_1;
-					sconst_4;
-					baload;
-					pop;
-					invokestatic 57;		// javacard/framework/JCSystem.beginTransaction()V
-					invokestatic 58;		// javacard/framework/JCSystem.commitTransaction()V
+				L0:	invokestatic 55;		// javacard/framework/JCSystem.beginTransaction()V
+					invokestatic 56;		// javacard/framework/JCSystem.commitTransaction()V
 					return;
 		}
 
@@ -868,7 +810,7 @@
 					invokestatic 33;		// javacard/framework/JCSystem.makeTransientByteArray(SB)[B
 					astore 5;
 				L5:	getfield_a_this 10;		// reference bankcard/CitizenCard.messageDigest
-					invokevirtual 59;		// reset()V
+					invokevirtual 57;		// reset()V
 					getfield_a_this 10;		// reference bankcard/CitizenCard.messageDigest
 					aload_1;
 					sload_3;
@@ -880,7 +822,7 @@
 					aload_2;
 					bspush 7;
 					sconst_1;
-					invokevirtual 60;		// setOutgoingAndSend(SS)V
+					invokevirtual 58;		// setOutgoingAndSend(SS)V
 					return;
 		}
 
@@ -898,7 +840,7 @@
 					aload_1;
 					sload_3;
 					sload 4;
-					invokevirtual 61;		// match([BBS)Z
+					invokevirtual 59;		// match([BBS)Z
 					ifeq L4;
 				L3:	sload_3;
 					sload 4;
@@ -910,17 +852,17 @@
 					aload_1;
 					sload_3;
 					sload 4;
-					invokevirtual 62;		// update([BBS)V
+					invokevirtual 60;		// update([BBS)V
 					return;
 				L4:	aload_1;
 					bspush 7;
 					aload_0;
-					invokevirtual 63;		// getTryRemaining()B
+					invokevirtual 61;		// getTryRemaining()B
 					bastore;
 					aload_2;
 					bspush 7;
 					sconst_1;
-					invokevirtual 60;		// setOutgoingAndSend(SS)V
+					invokevirtual 58;		// setOutgoingAndSend(SS)V
 					sspush 27264;
 					invokestatic 32;		// javacard/framework/ISOException.throwIt(S)V
 					return;
@@ -940,7 +882,7 @@
 					invokestatic 33;		// javacard/framework/JCSystem.makeTransientByteArray(SB)[B
 					astore 4;
 				L3:	getfield_a_this 10;		// reference bankcard/CitizenCard.messageDigest
-					invokevirtual 59;		// reset()V
+					invokevirtual 57;		// reset()V
 					getfield_a_this 10;		// reference bankcard/CitizenCard.messageDigest
 					aload_1;
 					sload_2;
@@ -955,7 +897,7 @@
 					sconst_0;
 					getfield_a_this 5;		// reference bankcard/CitizenCard.pin
 					arraylength;
-					invokestatic 64;		// javacard/framework/Util.arrayCompare([BS[BSS)B
+					invokestatic 62;		// javacard/framework/Util.arrayCompare([BS[BSS)B
 					ifne L5;
 				L4:	aload_0;
 					getfield_b_this 7;		// byte bankcard/CitizenCard.retry
@@ -986,7 +928,7 @@
 				L1:	sspush 27012;
 					invokestatic 32;		// javacard/framework/ISOException.throwIt(S)V
 				L2:	getfield_a_this 10;		// reference bankcard/CitizenCard.messageDigest
-					invokevirtual 59;		// reset()V
+					invokevirtual 57;		// reset()V
 					getfield_a_this 10;		// reference bankcard/CitizenCard.messageDigest
 					aload_1;
 					sload_2;
@@ -1047,12 +989,12 @@
 					aload_2;
 					sconst_0;
 					bspush 12;
-					invokestatic 65;		// javacard/framework/Util.arrayCopyNonAtomic([BS[BSS)S
+					invokestatic 63;		// javacard/framework/Util.arrayCopyNonAtomic([BS[BSS)S
 					pop;
 					aload_1;
 					sconst_0;
 					bspush 12;
-					invokevirtual 60;		// setOutgoingAndSend(SS)V
+					invokevirtual 58;		// setOutgoingAndSend(SS)V
 					return;
 		}
 
@@ -1065,9 +1007,9 @@
 				L0:	aload_0;
 					aload_0;
 					getfield_a_this 14;		// reference bankcard/CitizenCard.personalInformation
-					invokespecial 66;		// bankcard/CitizenCard.getArrayLen([B)S
-					putfield_s 3;		// short bankcard/CitizenCard.informationDataLength
-					getfield_s_this 3;		// short bankcard/CitizenCard.informationDataLength
+					invokespecial 64;		// bankcard/CitizenCard.getArrayLen([B)S
+					putfield_s 1;		// short bankcard/CitizenCard.informationDataLength
+					getfield_s_this 1;		// short bankcard/CitizenCard.informationDataLength
 					ifne L2;
 				L1:	sspush 27267;
 					invokestatic 32;		// javacard/framework/ISOException.throwIt(S)V
@@ -1078,16 +1020,16 @@
 					getfield_a_this 4;		// reference bankcard/CitizenCard.aes
 					getfield_a_this 14;		// reference bankcard/CitizenCard.personalInformation
 					sconst_0;
-					getfield_s_this 3;		// short bankcard/CitizenCard.informationDataLength
+					getfield_s_this 1;		// short bankcard/CitizenCard.informationDataLength
 					getfield_a_this 11;		// reference bankcard/CitizenCard.key
 					aload_2;
 					sconst_0;
-					invokevirtual 67;		// decode([BSSLjavacard/security/AESKey;[BS)S
-					putfield_s 3;		// short bankcard/CitizenCard.informationDataLength
+					invokevirtual 65;		// decode([BSSLjavacard/security/AESKey;[BS)S
+					putfield_s 1;		// short bankcard/CitizenCard.informationDataLength
 					aload_1;
 					sconst_0;
-					getfield_s_this 3;		// short bankcard/CitizenCard.informationDataLength
-					invokevirtual 60;		// setOutgoingAndSend(SS)V
+					getfield_s_this 1;		// short bankcard/CitizenCard.informationDataLength
+					invokevirtual 58;		// setOutgoingAndSend(SS)V
 					return;
 		}
 
@@ -1144,18 +1086,18 @@
 				L0:	getfield_a_this 4;		// reference bankcard/CitizenCard.aes
 					getfield_a_this 13;		// reference bankcard/CitizenCard.avatar
 					sconst_0;
-					getfield_s_this 2;		// short bankcard/CitizenCard.sizeAvatar
+					getfield_s_this 3;		// short bankcard/CitizenCard.sizeAvatar
 					getfield_a_this 11;		// reference bankcard/CitizenCard.key
 					getfield_a_this 12;		// reference bankcard/CitizenCard.avatarBuffer
 					sconst_0;
-					invokevirtual 67;		// decode([BSSLjavacard/security/AESKey;[BS)S
+					invokevirtual 65;		// decode([BSSLjavacard/security/AESKey;[BS)S
 					sstore_2;
 				L1:	aload_0;
 					getfield_a_this 12;		// reference bankcard/CitizenCard.avatarBuffer
-					invokespecial 66;		// bankcard/CitizenCard.getArrayLen([B)S
+					invokespecial 64;		// bankcard/CitizenCard.getArrayLen([B)S
 					sstore_2;
 					aload_1;
-					invokevirtual 68;		// setOutgoing()S
+					invokevirtual 66;		// setOutgoing()S
 					sstore_3;
 				L2:	sconst_0;
 					sstore 4;
@@ -1163,18 +1105,18 @@
 					sstore 5;
 				L4:	aload_1;
 					sload_2;
-					invokevirtual 69;		// setOutgoingLength(S)V
+					invokevirtual 67;		// setOutgoingLength(S)V
 					goto L6;
 				L5:	aload_0;
 					sload_2;
 					sload_3;
-					invokespecial 70;		// bankcard/CitizenCard.getMin(SS)S
+					invokespecial 68;		// bankcard/CitizenCard.getMin(SS)S
 					sstore 4;
 					aload_1;
 					getfield_a_this 12;		// reference bankcard/CitizenCard.avatarBuffer
 					sload 5;
 					sload 4;
-					invokevirtual 71;		// sendBytesLong([BSS)V
+					invokevirtual 69;		// sendBytesLong([BSS)V
 					sload_2;
 					sload 4;
 					ssub;
@@ -1212,26 +1154,26 @@
 					getfield_a_this 12;		// reference bankcard/CitizenCard.avatarBuffer
 					sconst_0;
 					getfield_s_this 17;		// short bankcard/CitizenCard.dataLen
-					invokestatic 65;		// javacard/framework/Util.arrayCopyNonAtomic([BS[BSS)S
+					invokestatic 63;		// javacard/framework/Util.arrayCopyNonAtomic([BS[BSS)S
 					pop;
 					aload_0;
 					getfield_s_this 17;		// short bankcard/CitizenCard.dataLen
-					putfield_s 2;		// short bankcard/CitizenCard.sizeAvatar
+					putfield_s 3;		// short bankcard/CitizenCard.sizeAvatar
 					getfield_a_this 4;		// reference bankcard/CitizenCard.aes
 					getfield_a_this 12;		// reference bankcard/CitizenCard.avatarBuffer
 					sconst_0;
 					getfield_s_this 17;		// short bankcard/CitizenCard.dataLen
 					getfield_a_this 11;		// reference bankcard/CitizenCard.key
 					getfield_a_this 13;		// reference bankcard/CitizenCard.avatar
-					invokevirtual 72;		// encode([BSSLjavacard/security/AESKey;[B)S
+					invokevirtual 70;		// encode([BSSLjavacard/security/AESKey;[B)S
 					sstore_3;
 				L1:	aload_0;
 					sload_3;
-					putfield_s 2;		// short bankcard/CitizenCard.sizeAvatar
+					putfield_s 3;		// short bankcard/CitizenCard.sizeAvatar
 					aload_0;
 					getfield_a_this 13;		// reference bankcard/CitizenCard.avatar
 					sload_3;
-					invokespecial 73;		// bankcard/CitizenCard.normalizeData([BS)V
+					invokespecial 71;		// bankcard/CitizenCard.normalizeData([BS)V
 					return;
 		}
 
@@ -1252,18 +1194,18 @@
 					aload_1;
 					sload 4;
 					sload 5;
-					invokespecial 74;		// bankcard/CitizenCard.checkPin([BBS)Z
+					invokespecial 72;		// bankcard/CitizenCard.checkPin([BBS)Z
 					ifeq L5;
 				L4:	return;
 				L5:	aload_3;
 					sconst_0;
 					aload_0;
-					invokevirtual 63;		// getTryRemaining()B
+					invokevirtual 61;		// getTryRemaining()B
 					bastore;
 					aload_2;
 					sconst_0;
 					sconst_1;
-					invokevirtual 60;		// setOutgoingAndSend(SS)V
+					invokevirtual 58;		// setOutgoingAndSend(SS)V
 					sspush 27264;
 					invokestatic 32;		// javacard/framework/ISOException.throwIt(S)V
 					return;
@@ -1282,12 +1224,12 @@
 				L1:	aload_0;
 					aload_1;
 					aload_2;
-					invokevirtual 75;		// createInformation([BLjavacard/framework/APDU;)V
+					invokevirtual 73;		// createInformation([BLjavacard/framework/APDU;)V
 					goto L4;
 				L2:	aload_0;
 					aload_1;
 					aload_2;
-					invokespecial 76;		// bankcard/CitizenCard.createSignature([BLjavacard/framework/APDU;)V
+					invokespecial 74;		// bankcard/CitizenCard.createSignature([BLjavacard/framework/APDU;)V
 					goto L4;
 				L3:	sspush 27270;
 					invokestatic 32;		// javacard/framework/ISOException.throwIt(S)V
@@ -1307,7 +1249,7 @@
 					ifne L3;
 				L2:	sspush 27012;
 					invokestatic 32;		// javacard/framework/ISOException.throwIt(S)V
-				L3:	invokestatic 57;		// javacard/framework/JCSystem.beginTransaction()V
+				L3:	invokestatic 55;		// javacard/framework/JCSystem.beginTransaction()V
 					getfield_s_this 17;		// short bankcard/CitizenCard.dataLen
 					sstore 6;
 				L4:	sload 6;
@@ -1315,7 +1257,7 @@
 					sadd;
 					sstore 5;
 				L5:	getfield_a_this 10;		// reference bankcard/CitizenCard.messageDigest
-					invokevirtual 59;		// reset()V
+					invokevirtual 57;		// reset()V
 					getfield_a_this 10;		// reference bankcard/CitizenCard.messageDigest
 					aload_1;
 					sload 5;
@@ -1334,13 +1276,13 @@
 					sload 6;
 					bspush 7;
 					ssub;
-					putfield_s 3;		// short bankcard/CitizenCard.informationDataLength
+					putfield_s 1;		// short bankcard/CitizenCard.informationDataLength
 					aload_1;
 					sload 4;
 					getfield_a_this 6;		// reference bankcard/CitizenCard.cardId
 					sconst_0;
 					bspush 12;
-					invokestatic 65;		// javacard/framework/Util.arrayCopyNonAtomic([BS[BSS)S
+					invokestatic 63;		// javacard/framework/Util.arrayCopyNonAtomic([BS[BSS)S
 					pop;
 					aload_0;
 					getfield_a_this 4;		// reference bankcard/CitizenCard.aes
@@ -1351,43 +1293,43 @@
 					ssub;
 					getfield_a_this 11;		// reference bankcard/CitizenCard.key
 					getfield_a_this 14;		// reference bankcard/CitizenCard.personalInformation
-					invokevirtual 72;		// encode([BSSLjavacard/security/AESKey;[B)S
-					putfield_s 3;		// short bankcard/CitizenCard.informationDataLength
+					invokevirtual 70;		// encode([BSSLjavacard/security/AESKey;[B)S
+					putfield_s 1;		// short bankcard/CitizenCard.informationDataLength
 					aload_0;
 					getfield_a_this 14;		// reference bankcard/CitizenCard.personalInformation
-					getfield_s_this 3;		// short bankcard/CitizenCard.informationDataLength
+					getfield_s_this 1;		// short bankcard/CitizenCard.informationDataLength
 					sconst_1;
 					sadd;
-					invokespecial 73;		// bankcard/CitizenCard.normalizeData([BS)V
-					invokestatic 58;		// javacard/framework/JCSystem.commitTransaction()V
-					invokestatic 77;		// bankcard/RsaConfig.generateKeyPair()Ljavacard/security/KeyPair;
+					invokespecial 71;		// bankcard/CitizenCard.normalizeData([BS)V
+					invokestatic 56;		// javacard/framework/JCSystem.commitTransaction()V
+					invokestatic 75;		// bankcard/RsaConfig.generateKeyPair()Ljavacard/security/KeyPair;
 					astore 7;
 				L7:	aload_0;
 					aload 7;
-					invokevirtual 78;		// getPrivate()Ljavacard/security/PrivateKey;
-					checkcast 0 79;		// T_CLASSORINTERFACE javacard/security/RSAPrivateKey
+					invokevirtual 76;		// getPrivate()Ljavacard/security/PrivateKey;
+					checkcast 0 77;		// T_CLASSORINTERFACE javacard/security/RSAPrivateKey
 					putfield_a 18;		// reference bankcard/CitizenCard.privateKey
 					aload_0;
 					aload 7;
-					invokevirtual 81;		// getPublic()Ljavacard/security/PublicKey;
-					checkcast 0 82;		// T_CLASSORINTERFACE javacard/security/RSAPublicKey
+					invokevirtual 79;		// getPublic()Ljavacard/security/PublicKey;
+					checkcast 0 80;		// T_CLASSORINTERFACE javacard/security/RSAPublicKey
 					putfield_a 19;		// reference bankcard/CitizenCard.publicKey
 					getfield_a_this 19;		// reference bankcard/CitizenCard.publicKey
 					aload_1;
 					sconst_0;
-					invokestatic 84;		// bankcard/RsaConfig.serializePublicKey(Ljavacard/security/RSAPublicKey;[BS)S
+					invokestatic 82;		// bankcard/RsaConfig.serializePublicKey(Ljavacard/security/RSAPublicKey;[BS)S
 					sstore 6;
 					aload_1;
 					sconst_0;
 					aload_3;
 					sconst_0;
 					sload 6;
-					invokestatic 65;		// javacard/framework/Util.arrayCopyNonAtomic([BS[BSS)S
+					invokestatic 63;		// javacard/framework/Util.arrayCopyNonAtomic([BS[BSS)S
 					pop;
 					aload_2;
 					sconst_0;
 					sload 6;
-					invokevirtual 60;		// setOutgoingAndSend(SS)V
+					invokevirtual 58;		// setOutgoingAndSend(SS)V
 					return;
 		}
 
@@ -1405,7 +1347,7 @@
 					invokestatic 33;		// javacard/framework/JCSystem.makeTransientByteArray(SB)[B
 					astore 4;
 				L3:	getfield_a_this 10;		// reference bankcard/CitizenCard.messageDigest
-					invokevirtual 59;		// reset()V
+					invokevirtual 57;		// reset()V
 					getfield_a_this 10;		// reference bankcard/CitizenCard.messageDigest
 					aload_1;
 					sload_2;
@@ -1420,7 +1362,7 @@
 					sconst_0;
 					getfield_a_this 5;		// reference bankcard/CitizenCard.pin
 					arraylength;
-					invokestatic 64;		// javacard/framework/Util.arrayCompare([BS[BSS)B
+					invokestatic 62;		// javacard/framework/Util.arrayCompare([BS[BSS)B
 					ifne L5;
 				L4:	aload_0;
 					getfield_b_this 7;		// byte bankcard/CitizenCard.retry
@@ -1451,7 +1393,7 @@
 				L1:	sspush 27012;
 					invokestatic 32;		// javacard/framework/ISOException.throwIt(S)V
 				L2:	getfield_a_this 10;		// reference bankcard/CitizenCard.messageDigest
-					invokevirtual 59;		// reset()V
+					invokevirtual 57;		// reset()V
 					getfield_a_this 10;		// reference bankcard/CitizenCard.messageDigest
 					aload_1;
 					sload_2;
@@ -1505,28 +1447,28 @@
 				L3:	getfield_a_this 15;		// reference bankcard/CitizenCard.signature
 					getfield_a_this 18;		// reference bankcard/CitizenCard.privateKey
 					sconst_1;
-					invokevirtual 85;		// init(Ljavacard/security/Key;B)V
+					invokevirtual 83;		// init(Ljavacard/security/Key;B)V
 					getfield_a_this 15;		// reference bankcard/CitizenCard.signature
 					aload_1;
 					bspush 7;
 					sload_3;
 					getfield_a_this 16;		// reference bankcard/CitizenCard.signatureBuf
 					sconst_0;
-					invokevirtual 86;		// sign([BSS[BS)S
+					invokevirtual 84;		// sign([BSS[BS)S
 					pop;
 					aload_2;
-					invokevirtual 68;		// setOutgoing()S
+					invokevirtual 66;		// setOutgoing()S
 					pop;
 					aload_2;
 					getfield_a_this 16;		// reference bankcard/CitizenCard.signatureBuf
 					arraylength;
-					invokevirtual 69;		// setOutgoingLength(S)V
+					invokevirtual 67;		// setOutgoingLength(S)V
 					aload_2;
 					getfield_a_this 16;		// reference bankcard/CitizenCard.signatureBuf
 					sconst_0;
 					getfield_a_this 16;		// reference bankcard/CitizenCard.signatureBuf
 					arraylength;
-					invokevirtual 71;		// sendBytesLong([BSS)V
+					invokevirtual 69;		// sendBytesLong([BSS)V
 					return;
 		}
 
@@ -1534,9 +1476,9 @@
 			.stack 5;
 			.locals 0;
 
-				L0:	new 87;		// bankcard/CitizenCard
+				L0:	new 85;		// bankcard/CitizenCard
 					dup;
-					invokespecial 88;		// bankcard/CitizenCard.<init>()V
+					invokespecial 86;		// bankcard/CitizenCard.<init>()V
 					aload_0;
 					sload_1;
 					sconst_1;
@@ -1544,7 +1486,7 @@
 					aload_0;
 					sload_1;
 					baload;
-					invokevirtual 89;		// register([BSB)V
+					invokevirtual 87;		// register([BSB)V
 					return;
 		}
 
@@ -1574,14 +1516,14 @@
 
 			.descriptor	Ljavacard/security/KeyPair;	3.16;
 
-				L0:	new 90;		// javacard/security/KeyPair
+				L0:	new 88;		// javacard/security/KeyPair
 					dup;
 					sconst_1;
 					sspush 1024;
-					invokespecial 91;		// javacard/security/KeyPair.<init>(BS)V
+					invokespecial 89;		// javacard/security/KeyPair.<init>(BS)V
 					astore_0;
 				L1:	aload_0;
-					invokevirtual 92;		// genKeyPair()V
+					invokevirtual 90;		// genKeyPair()V
 					aload_0;
 					areturn;
 		}
@@ -1597,7 +1539,7 @@
 					sload_2;
 					sconst_2;
 					sadd;
-					invokeinterface 3 82 4;		// javacard/security/RSAPublicKey
+					invokeinterface 3 80 4;		// javacard/security/RSAPublicKey
 					sstore_3;
 				L1:	aload_0;
 					aload_1;
@@ -1608,12 +1550,12 @@
 					sadd;
 					sconst_2;
 					sadd;
-					invokeinterface 3 82 5;		// javacard/security/RSAPublicKey
+					invokeinterface 3 80 5;		// javacard/security/RSAPublicKey
 					sstore 4;
 				L2:	aload_1;
 					sload_2;
 					sload_3;
-					invokestatic 93;		// javacard/framework/Util.setShort([BSS)S
+					invokestatic 91;		// javacard/framework/Util.setShort([BSS)S
 					pop;
 					aload_1;
 					sload_2;
@@ -1622,7 +1564,7 @@
 					sload_3;
 					sadd;
 					sload 4;
-					invokestatic 93;		// javacard/framework/Util.setShort([BSS)S
+					invokestatic 91;		// javacard/framework/Util.setShort([BSS)S
 					pop;
 					sconst_4;
 					sload_3;

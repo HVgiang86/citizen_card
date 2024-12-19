@@ -19,45 +19,56 @@ public class CitizenCard extends Applet implements ExtendedLength
 	
 	private static final byte[]PIN_DEFAULT= new byte[]{(byte)'1',(byte)'2',(byte)'3',(byte)'4',(byte)'5',(byte)'6'};
 	private static final byte PIN_RETRY = 5;
-	private final byte[] pin;
-	private byte retry;
-	private byte tryRemaining;
+	
+	
 	private final MessageDigest messageDigest;
-    private boolean isValidated;
+    
     private final AESKey key;
     private final AesConfig aes;
     
+    private boolean isValidated;
+    private byte retry;
+	private byte tryRemaining;
+	
+	// Extended APDU CDATA Length
+	private short dataLen;
+	
+	// Common Card Info
+    private final byte[] cardId;
+    private final byte[] pin;
+    private byte[] createDate;
+    private byte[] expirationDate;
+    
+    // INS
     private static final byte INS_VERIFY=(byte)0x00;
     private static final byte INS_CREATE=(byte)0x01;
     private static final byte INS_GET=(byte)0x02;
     private static final byte INS_UPDATE=(byte)0x03;
+    private static final byte INS_RESET_TRY_PIN=(byte)0x10;
+    
+    // P1
     private static final byte PIN=(byte)0x04;
-    private static final byte FORGET_PIN=0x0A;
-	private static final byte BANK_INFORMATION=(byte)0x05;
+	private static final byte CITIZEN_INFORMATION=(byte)0x05;
 	private static final byte SIGNATURE=(byte)0x06;
+	private static final byte FORGET_PIN=(byte)0x0A;
+	
+	// P2
 	private static final byte INFORMATION=(byte)0x07;
 	private static final byte CARD_ID=(byte)0x0A;
-	
-	private static final byte BALANCE=(byte)0x08;
 	private static final byte AVATAR=(byte)0x09;
-	private static final byte INS_RESET_TRY_PIN=(byte)0x10;
+	
     
-    private byte[] cardId;
-    private byte[] createDate;
-    private byte[] expirationDate;
-    private short dataLen;
-    
-    // Java card
+    //Handle Personal Information
     private byte[] personalInformation;
+    private short informationDataLength = 0;
     
-    
-    private short MAX_SIZE = (short)15360;
+    // Handle Avatar Image
+    private short IMAGE_MAX_SIZE = (short)15360;
     private byte[] avatar;
     private byte[] avatarBuffer;
     private short sizeAvatar = 0;
     
-    private short informationDataLength = 0;
-    
+    // Signature
     private final Signature signature;
     private final byte[] signatureBuf;
     private RSAPrivateKey privateKey;
@@ -74,12 +85,11 @@ public class CitizenCard extends Applet implements ExtendedLength
 	    messageDigest.doFinal(PIN_DEFAULT,(short)0,(short)PIN_DEFAULT.length,pin,(short)0);
         key=(AESKey)KeyBuilder.buildKey(KeyBuilder.TYPE_AES, (short) 128, false);
       
-        // numberCard= new byte[16];
-        avatarBuffer = new byte[MAX_SIZE];
-        avatar = new byte[MAX_SIZE];
+        avatarBuffer = new byte[IMAGE_MAX_SIZE];
+        avatar = new byte[IMAGE_MAX_SIZE];
         personalInformation = new byte[1024];
-        signature = Signature.getInstance(Signature.ALG_RSA_SHA_PKCS1, false);
         
+        signature = Signature.getInstance(Signature.ALG_RSA_SHA_PKCS1, false);
         signatureBuf = JCSystem.makeTransientByteArray((short) (KeyBuilder.LENGTH_RSA_1024 / 8), JCSystem.CLEAR_ON_RESET);
     }
     
@@ -111,28 +121,28 @@ public class CitizenCard extends Applet implements ExtendedLength
 	}
 	
 	public byte[] processAPDU(APDU apdu) {
-		short pointer = 7;                  // Con tr  ch v trí lu tr trong buf_temp
-		short byteRead = 0;               // S byte ã c t APDU
-		short totalDataLen = 0;             // Tng s byte ca d liu
+		short pointer = 7;                 
+		short byteRead = 0;              
+		short totalDataLen = 0;             
 		byte[] buf = apdu.getBuffer();
-
-		// Kim tra xem APDU có phi là Extended APDU hay không
-		if (buf[ISO7816.OFFSET_LC] == 0x00) {  // Nu LC là 0x00 thì là Extended APDU
-			// Kim tra xem LC có phi 2 byte hay 3 byte
-			if (buf[ISO7816.OFFSET_LC + 1] != 0x00) {
-				// Nu LC có 3 byte (do byte th 2 có giá tr 0x00)
-				dataLen = UtilLC.getLong(buf, (short) (ISO7816.OFFSET_LC) ); // Ly 3 byte
-			} else {
-				// Nu LC có 2 byte
-				dataLen = UtilLC.getShort(buf, (short) (ISO7816.OFFSET_LC) ); // Ly 2 byte
-			}
+		
+		// Get Data length in bytes
+		// If the second LC byte is not 0x00 => LC has data in 2 byte
+		if (buf[ISO7816.OFFSET_LC + 1] != 0x00) {
+			dataLen = UtilLC.getLong(buf, (short) (ISO7816.OFFSET_LC) );
+			
+		// If the second LC byte is 0x00 => LC has data in only one byte
 		} else {
-			// Nu không phi Extended APDU, ch ly LC là 1 byte
-			dataLen = (short) (buf[ISO7816.OFFSET_LC] & 0xFF);
+			dataLen = UtilLC.getShort(buf, (short) (ISO7816.OFFSET_LC) );
 		}
+		
 		totalDataLen = dataLen;
+		
+		// Padding data bytes array into divisable with 16
+		// This will support process avatar image
 		short standardLen = (short) (totalDataLen + (16 - (totalDataLen % 16)));
 		
+		// Receive data
 		byte[] buf_temp = new byte[(short) (standardLen +8)];
 		byteRead = (short) (apdu.setIncomingAndReceive());
 		Util.arrayCopy(buf, ISO7816.OFFSET_CLA, buf_temp, (short) 0, (short) 7);
@@ -152,21 +162,17 @@ public class CitizenCard extends Applet implements ExtendedLength
 
 		return buf_temp;
 	}
+	
     // 00 02 05 07
     private void get(APDU apdu) throws ISOException{
-		// if(personalInformation.length == 0){
-			// return;
-		// }
 		byte[] buf=apdu.getBuffer();
-		if(buf[ISO7816.OFFSET_P1]!=BANK_INFORMATION){
+		if(buf[ISO7816.OFFSET_P1]!=CITIZEN_INFORMATION){
 			ISOException.throwIt(ISO7816.SW_INCORRECT_P1P2);
 		}
+		
 		switch(buf[ISO7816.OFFSET_P2]){
 		case INFORMATION:
 			getInformation(apdu);
-			break;
-		case BALANCE:
-			getBalance(apdu);
 			break;
 		case AVATAR:
 			getAvatar(apdu);
@@ -178,15 +184,11 @@ public class CitizenCard extends Applet implements ExtendedLength
 			ISOException.throwIt(ISO7816.SW_INCORRECT_P1P2);
 		}
 	}
-	private void getBalance(APDU apdu){
-	    byte[]buf=apdu.getBuffer();
-	    // short length= (byte)getLength(aes.decode(numberBalance,(short)0,(short)numberBalance.length,key, buf,(short)0),(short)0);
-	    // apdu.setOutgoingAndSend((short)0,length);
-    }
+	
 	private void update(byte[] buf, APDU apdu) throws ISOException{
 		
 		switch(buf[ISO7816.OFFSET_P1]){
-		case BANK_INFORMATION:
+		case CITIZEN_INFORMATION:
 			break;
 		case PIN:
 			updatePin(buf, apdu);
@@ -212,28 +214,18 @@ public class CitizenCard extends Applet implements ExtendedLength
 		case INFORMATION:
 			updateInformation(buf);
 			break;
-		case BALANCE:
-			updateBalance(buf);
-			break;
 		default:
 			ISOException.throwIt(ISO7816.SW_INCORRECT_P1P2);
 		}
 	}
+	
+	// TODO: FINISH
 	private void updateInformation(byte[]buf){
 	    byte offset;
 	    short length;
 	    JCSystem.beginTransaction();
-	    offset=ISO7816.OFFSET_CDATA;
-	    length=(short) buf[offset];
-	    // nameCard = aes.encode(buf,(short)(offset+1),length,key,nameCard);
-	   
-	    JCSystem.commitTransaction();
-    }
-    private void updateBalance(byte[]buf){
-	    short offset=ISO7816.OFFSET_CDATA;
-	    short length=buf[ISO7816.OFFSET_LC];
-	    JCSystem.beginTransaction();
-	    // numberBalance = aes.encode(buf,(short)offset,length,key,numberBalance);
+	    
+	    // TODO
 	    JCSystem.commitTransaction();
     }
     
@@ -286,6 +278,7 @@ public class CitizenCard extends Applet implements ExtendedLength
 		tryRemaining--;
 		return false;
 	}
+	
     public void update(byte[]buf,byte offset,short length){
 		if(length<1){
 			ISOException.throwIt(ISO7816.SW_DATA_INVALID);
@@ -294,6 +287,7 @@ public class CitizenCard extends Applet implements ExtendedLength
 		messageDigest.doFinal(buf,(short)offset,length,pin,(short)0);
 		tryRemaining=retry;
 	}
+	
 	private short getLength(byte[]output,short outOffset){
 		short length;
 		for(length=(short)(output.length-1);length>=0;length--){
@@ -314,7 +308,6 @@ public class CitizenCard extends Applet implements ExtendedLength
 		apdu.setOutgoingAndSend((short) 0, (short) 12);
 	}
 	
-	//giai ma --->lay du lieu ---> gui den app
     private void getInformation(APDU apdu) {
     	informationDataLength = getArrayLen(personalInformation);
     	
@@ -354,7 +347,7 @@ public class CitizenCard extends Applet implements ExtendedLength
 		short maxLength = apdu.setOutgoing();
 		short length = 0;
 		short pointer = 0;
-		//bo dem apdu
+		
 		apdu.setOutgoingLength(avtSize);
 		while (avtSize > 0) {
 			length = getMin(avtSize, maxLength);
@@ -394,7 +387,7 @@ public class CitizenCard extends Applet implements ExtendedLength
 	private void create(byte[]buf, APDU apdu) throws ISOException{
 		// byte[] buf=apdu.getBuffer();
 		switch(buf[ISO7816.OFFSET_P1]){
-		case BANK_INFORMATION:
+		case CITIZEN_INFORMATION:
 			createInformation(buf, apdu);
 			break;
 			//00 01 06 00
