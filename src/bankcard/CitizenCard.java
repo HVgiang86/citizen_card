@@ -58,6 +58,7 @@ public class CitizenCard extends Applet implements ExtendedLength {
 	private static final byte INFORMATION = (byte) 0x07;
 	private static final byte CARD_ID = (byte) 0x0A;
 	private static final byte AVATAR = (byte) 0x09;
+	private static final byte TRY_REMAINING = (byte) 0x08;
 	// private static final byte INS_RESET_TRY_PIN = (byte) 0x10;
 
 	// private byte[] cardId;
@@ -186,6 +187,9 @@ public class CitizenCard extends Applet implements ExtendedLength {
 			case CARD_ID:
 				getCardId(apdu);
 				break;
+			case TRY_REMAINING:
+				getTryRemaining(apdu);
+				break;
 			default:
 				ISOException.throwIt(ISO7816.SW_INCORRECT_P1P2);
 		}
@@ -255,7 +259,7 @@ public class CitizenCard extends Applet implements ExtendedLength {
 		short length;
 
 		JCSystem.beginTransaction();
-
+		Util.arrayFillNonAtomic(personalInformation, (short) 0, informationDataLength, (byte) 0x00);
 		length = dataLen;
 		// offsetPin = (short) (length + 1); // 62 - 6 + 8 = 61, 61 62 63 64 65 66
 
@@ -425,6 +429,7 @@ public class CitizenCard extends Applet implements ExtendedLength {
 			pointer += length;
 		}
 	}
+	
 
 	private short getMin(short lengthOne, short lengthTwo) {
 		if (lengthOne <= lengthTwo) {
@@ -450,6 +455,13 @@ public class CitizenCard extends Applet implements ExtendedLength {
 			return;
 		}
 		bufApdu[(short) 0] = getTryRemaining();
+		apdu.setOutgoingAndSend((short) 0, (short) 1);
+		ISOException.throwIt(ISO7816.SW_WRONG_DATA);
+	}
+	
+	private void getTryRemaining(APDU apdu){
+		byte[] buf = apdu.getBuffer();
+		buf[(short) 0] = getTryRemaining();
 		apdu.setOutgoingAndSend((short) 0, (short) 1);
 		ISOException.throwIt(ISO7816.SW_WRONG_DATA);
 	}
@@ -552,6 +564,8 @@ public class CitizenCard extends Applet implements ExtendedLength {
 	public byte getTryRemaining() {
 		return tryRemaining;
 	}
+	
+	
 
 	public boolean isValidated() {
 		return isValidated;
