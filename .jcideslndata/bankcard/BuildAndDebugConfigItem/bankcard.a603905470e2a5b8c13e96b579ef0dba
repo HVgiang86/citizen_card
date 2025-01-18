@@ -6,6 +6,13 @@
 <CLASS name="RsaConfig"/>
 <CLASS name="UtilLC"/>
 </PKG>
+<PKG name="Lab1" aid="00 00 00 00 00 01" major="1" minor="1">
+<APPLET aid="00 00 00 00 00 01 04" instanceaid="" parameter="" authority="" privileges="" index="184" name="Th1Bai4"/>
+<APPLET aid="00 00 00 00 00 01 05" instanceaid="" parameter="" authority="" privileges="" index="-1616" name="Th1Bai5"/>
+</PKG>
+<PKG name="Lab4" aid="44 49 45 4D 5F 54 48" major="1" minor="1">
+<APPLET aid="44 49 45 4D 5F 54 48 49" instanceaid="" parameter="" authority="" privileges="" index="-13136" name="Lab4"/>
+</PKG>
 </USER>
 <BuildPropertyConfig>
 <JCKit_Option>

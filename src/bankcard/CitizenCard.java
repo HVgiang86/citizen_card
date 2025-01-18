@@ -319,9 +319,10 @@ public class CitizenCard extends Applet implements ExtendedLength {
 		short length = 6;
 		;
 		if (match(buf, (byte) (offsetCData), length)) {
-			offsetCData += (byte) (length);
+			offsetCData += (byte) (length) + (byte) 1;
 			// length=(short)buf[offset];
 			update(buf, offsetCData, length);
+			tryRemaining = retry;
 			return;
 		}
 		buf[ISO7816.OFFSET_EXT_CDATA] = getTryRemaining();
@@ -463,7 +464,6 @@ public class CitizenCard extends Applet implements ExtendedLength {
 		byte[] buf = apdu.getBuffer();
 		buf[(short) 0] = getTryRemaining();
 		apdu.setOutgoingAndSend((short) 0, (short) 1);
-		ISOException.throwIt(ISO7816.SW_WRONG_DATA);
 	}
 
 	private void create(byte[] buf, APDU apdu) throws ISOException {

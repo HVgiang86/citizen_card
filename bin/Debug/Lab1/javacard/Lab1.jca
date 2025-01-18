@@ -1,0 +1,683 @@
+// converted by version 1.3
+// on Thu Jan 16 15:27:44 ICT 2025
+
+.package Lab1 {
+	.aid 0x0:0x0:0x0:0x0:0x0:0x1;
+	.version 1.1;
+
+	.imports {
+		0xA0:0x0:0x0:0x0:0x62:0x1:0x1 1.5;		//javacard/framework
+		0xA0:0x0:0x0:0x0:0x62:0x0:0x1 1.0;		//java/lang
+	}
+
+	.applet {
+		0x0:0x0:0x0:0x0:0x0:0x1:0x4 Th1Bai4;
+		0x0:0x0:0x0:0x0:0x0:0x1:0x5 Th1Bai5;
+	}
+
+	.constantPool {
+		// 0
+		instanceFieldRef byte[] Th1Bai4/fullName;
+		// 1
+		instanceFieldRef byte[] Th1Bai4/dateOfBirth;
+		// 2
+		instanceFieldRef byte[] Th1Bai5/studentId;
+		// 3
+		instanceFieldRef byte[] Th1Bai5/name;
+		// 4
+		instanceFieldRef byte[] Th1Bai5/dob;
+		// 5
+		instanceFieldRef byte[] Th1Bai5/town;
+		// 6
+		instanceFieldRef byte[] Th1Bai5/studentInfo;
+		// 7
+		virtualMethodRef 0.10.1()[B;		// getBuffer()[B
+		// 8
+		staticMethodRef Th1Bai4/enterInfo(Ljavacard/framework/APDU;)V;
+			.descriptor	Ljavacard/framework/APDU;	0.10;
+
+		// 9
+		staticMethodRef Th1Bai4/getStudentInfo(Ljavacard/framework/APDU;)V;
+			.descriptor	Ljavacard/framework/APDU;	0.10;
+
+		// 10
+		staticMethodRef 0.7.1(S)V;		// javacard/framework/ISOException.throwIt(S)V
+		// 11
+		staticMethodRef Th1Bai4/enterFullName(Ljavacard/framework/APDU;)V;
+			.descriptor	Ljavacard/framework/APDU;	0.10;
+
+		// 12
+		staticMethodRef Th1Bai4/enterDateOfBirth(Ljavacard/framework/APDU;)V;
+			.descriptor	Ljavacard/framework/APDU;	0.10;
+
+		// 13
+		virtualMethodRef 0.10.6()S;		// setIncomingAndReceive()S
+		// 14
+		staticMethodRef 0.16.1([BS[BSS)S;		// javacard/framework/Util.arrayCopy([BS[BSS)S
+		// 15
+		virtualMethodRef 0.10.7()S;		// setOutgoing()S
+		// 16
+		virtualMethodRef 0.10.9(S)V;		// setOutgoingLength(S)V
+		// 17
+		virtualMethodRef 0.10.5([BSS)V;		// sendBytesLong([BSS)V
+		// 18
+		staticMethodRef 0.3.0()V;		// javacard/framework/Applet.<init>()V
+		// 19
+		classRef Th1Bai4;
+		// 20
+		staticMethodRef Th1Bai4/<init>()V;
+		// 21
+		virtualMethodRef 0.3.2([BSB)V;		// register([BSB)V
+		// 22
+		classRef Th1Bai5;
+		// 23
+		staticMethodRef Th1Bai5/<init>()V;
+		// 24
+		virtualMethodRef 0.3.2([BSB)V;		// register([BSB)V
+		// 25
+		virtualMethodRef 0.3.3()Z;		// selectingApplet()Z
+		// 26
+		staticMethodRef Th1Bai5/enterStudentInfo(Ljavacard/framework/APDU;)V;
+			.descriptor	Ljavacard/framework/APDU;	0.10;
+
+		// 27
+		staticMethodRef Th1Bai5/getStudentInfo(Ljavacard/framework/APDU;)V;
+			.descriptor	Ljavacard/framework/APDU;	0.10;
+
+		// 28
+		virtualMethodRef 0.3.3()Z;		// selectingApplet()Z
+		// 29
+		staticFieldRef byte Th1Bai5/DELIMITER;
+		// 30
+		staticMethodRef Th1Bai5/findDelimiter([BSSB)S;
+	}
+
+	.class public Th1Bai4 0 extends 0.3 {		// extends javacard/framework/Applet
+
+		.fields {
+			private byte[] fullName 0;		// [B
+			private byte[] dateOfBirth 1;		// [B
+			private static final byte INS_ENTER_INFO = 0;		// B
+			private static final byte INS_GET_INFO = 1;		// B
+			private static final byte P1_NAME = 1;		// B
+			private static final byte P1_DOB = 2;		// B
+			private static final byte P1_BOTH = 3;		// B
+		}
+
+		.publicMethodTable 7 {
+			equals(Ljava/lang/Object;)Z;
+			register()V;
+			register([BSB)V;
+			selectingApplet()Z;
+			deselect()V;
+			getShareableInterfaceObject(Ljavacard/framework/AID;B)Ljavacard/framework/Shareable;;
+			select()Z;
+			process(Ljavacard/framework/APDU;)V;
+		}
+
+		.packageMethodTable 0 {
+		}
+
+		.method private <init>()V {
+			.stack 2;
+			.locals 0;
+
+				L0:	aload_0;
+					invokespecial 18;		// javacard/framework/Applet.<init>()V
+					aload_0;
+					aconst_null;
+					putfield_a 0;		// reference Lab1/Th1Bai4.fullName
+					aload_0;
+					aconst_null;
+					putfield_a 1;		// reference Lab1/Th1Bai4.dateOfBirth
+					return;
+		}
+
+		.method public static install([BSB)V 0 {
+			.stack 5;
+			.locals 0;
+
+				L0:	new 19;		// Lab1/Th1Bai4
+					dup;
+					invokespecial 20;		// Lab1/Th1Bai4.<init>()V
+					aload_0;
+					sload_1;
+					sconst_1;
+					sadd;
+					aload_0;
+					sload_1;
+					baload;
+					invokevirtual 21;		// register([BSB)V
+					return;
+		}
+
+		.method public process(Ljavacard/framework/APDU;)V 7 {
+			.stack 2;
+			.locals 2;
+
+			.descriptor	Ljavacard/framework/APDU;	0.10;
+
+				L0:	aload_0;
+					invokevirtual 28;		// selectingApplet()Z
+					ifeq L2;
+				L1:	return;
+				L2:	aload_1;
+					invokevirtual 7;		// getBuffer()[B
+					astore_2;
+				L3:	aload_2;
+					sconst_1;
+					baload;
+					sstore_3;
+				L4:	sload_3;
+					stableswitch L7 0 1 L5 L6;
+				L5:	aload_0;
+					aload_1;
+					invokespecial 8;		// Lab1/Th1Bai4.enterInfo(Ljavacard/framework/APDU;)V
+					goto L8;
+				L6:	aload_0;
+					aload_1;
+					invokespecial 9;		// Lab1/Th1Bai4.getStudentInfo(Ljavacard/framework/APDU;)V
+					goto L8;
+				L7:	sspush 27904;
+					invokestatic 10;		// javacard/framework/ISOException.throwIt(S)V
+				L8:	return;
+		}
+
+		.method private enterInfo(Ljavacard/framework/APDU;)V {
+			.stack 2;
+			.locals 2;
+
+			.descriptor	Ljavacard/framework/APDU;	0.10;
+
+				L0:	aload_1;
+					invokevirtual 7;		// getBuffer()[B
+					astore_2;
+				L1:	aload_2;
+					sconst_2;
+					baload;
+					sstore_3;
+				L2:	sload_3;
+					stableswitch L5 1 2 L3 L4;
+				L3:	aload_0;
+					aload_1;
+					invokespecial 11;		// Lab1/Th1Bai4.enterFullName(Ljavacard/framework/APDU;)V
+					goto L6;
+				L4:	aload_0;
+					aload_1;
+					invokespecial 12;		// Lab1/Th1Bai4.enterDateOfBirth(Ljavacard/framework/APDU;)V
+					goto L6;
+				L5:	sspush 27270;
+					invokestatic 10;		// javacard/framework/ISOException.throwIt(S)V
+				L6:	return;
+		}
+
+		.method private enterFullName(Ljavacard/framework/APDU;)V {
+			.stack 5;
+			.locals 2;
+
+			.descriptor	Ljavacard/framework/APDU;	0.10;
+
+				L0:	aload_1;
+					invokevirtual 7;		// getBuffer()[B
+					astore_2;
+				L1:	aload_1;
+					invokevirtual 13;		// setIncomingAndReceive()S
+					sstore_3;
+				L2:	aload_0;
+					sload_3;
+					newarray 11;
+					putfield_a 0;		// reference Lab1/Th1Bai4.fullName
+					aload_2;
+					sconst_5;
+					getfield_a_this 0;		// reference Lab1/Th1Bai4.fullName
+					sconst_0;
+					sload_3;
+					invokestatic 14;		// javacard/framework/Util.arrayCopy([BS[BSS)S
+					pop;
+					return;
+		}
+
+		.method private enterDateOfBirth(Ljavacard/framework/APDU;)V {
+			.stack 5;
+			.locals 2;
+
+			.descriptor	Ljavacard/framework/APDU;	0.10;
+
+				L0:	aload_1;
+					invokevirtual 7;		// getBuffer()[B
+					astore_2;
+				L1:	aload_1;
+					invokevirtual 13;		// setIncomingAndReceive()S
+					sstore_3;
+				L2:	aload_0;
+					sload_3;
+					newarray 11;
+					putfield_a 1;		// reference Lab1/Th1Bai4.dateOfBirth
+					aload_2;
+					sconst_5;
+					getfield_a_this 1;		// reference Lab1/Th1Bai4.dateOfBirth
+					sconst_0;
+					sload_3;
+					invokestatic 14;		// javacard/framework/Util.arrayCopy([BS[BSS)S
+					pop;
+					return;
+		}
+
+		.method private getStudentInfo(Ljavacard/framework/APDU;)V {
+			.stack 5;
+			.locals 4;
+
+			.descriptor	Ljavacard/framework/APDU;	0.10;
+
+				L0:	aload_1;
+					invokevirtual 7;		// getBuffer()[B
+					astore_2;
+				L1:	aload_2;
+					sconst_2;
+					baload;
+					sstore_3;
+				L2:	aconst_null;
+					astore 4;
+				L3:	sconst_0;
+					sstore 5;
+				L4:	sload_3;
+					stableswitch L12 1 3 L5 L7 L9;
+				L5:	getfield_a_this 0;		// reference Lab1/Th1Bai4.fullName
+					ifnull L13;
+				L6:	getfield_a_this 0;		// reference Lab1/Th1Bai4.fullName
+					astore 4;
+					getfield_a_this 0;		// reference Lab1/Th1Bai4.fullName
+					arraylength;
+					sstore 5;
+					goto L13;
+				L7:	getfield_a_this 1;		// reference Lab1/Th1Bai4.dateOfBirth
+					ifnull L13;
+				L8:	getfield_a_this 1;		// reference Lab1/Th1Bai4.dateOfBirth
+					astore 4;
+					getfield_a_this 1;		// reference Lab1/Th1Bai4.dateOfBirth
+					arraylength;
+					sstore 5;
+					goto L13;
+				L9:	getfield_a_this 0;		// reference Lab1/Th1Bai4.fullName
+					ifnull L13;
+				L10:	getfield_a_this 1;		// reference Lab1/Th1Bai4.dateOfBirth
+					ifnull L13;
+				L11:	getfield_a_this 0;		// reference Lab1/Th1Bai4.fullName
+					arraylength;
+					getfield_a_this 1;		// reference Lab1/Th1Bai4.dateOfBirth
+					arraylength;
+					sadd;
+					sconst_1;
+					sadd;
+					sstore 5;
+					sload 5;
+					newarray 11;
+					astore 4;
+					getfield_a_this 0;		// reference Lab1/Th1Bai4.fullName
+					sconst_0;
+					aload 4;
+					sconst_0;
+					getfield_a_this 0;		// reference Lab1/Th1Bai4.fullName
+					arraylength;
+					invokestatic 14;		// javacard/framework/Util.arrayCopy([BS[BSS)S
+					pop;
+					aload 4;
+					getfield_a_this 0;		// reference Lab1/Th1Bai4.fullName
+					arraylength;
+					bspush 124;
+					bastore;
+					getfield_a_this 1;		// reference Lab1/Th1Bai4.dateOfBirth
+					sconst_0;
+					aload 4;
+					getfield_a_this 0;		// reference Lab1/Th1Bai4.fullName
+					arraylength;
+					sconst_1;
+					sadd;
+					getfield_a_this 1;		// reference Lab1/Th1Bai4.dateOfBirth
+					arraylength;
+					invokestatic 14;		// javacard/framework/Util.arrayCopy([BS[BSS)S
+					pop;
+					goto L13;
+				L12:	sspush 27270;
+					invokestatic 10;		// javacard/framework/ISOException.throwIt(S)V
+				L13:	aload 4;
+					ifnull L15;
+				L14:	aload_1;
+					invokevirtual 15;		// setOutgoing()S
+					pop;
+					aload_1;
+					sload 5;
+					invokevirtual 16;		// setOutgoingLength(S)V
+					aload_1;
+					aload 4;
+					sconst_0;
+					sload 5;
+					invokevirtual 17;		// sendBytesLong([BSS)V
+					goto L16;
+				L15:	sspush 27267;
+					invokestatic 10;		// javacard/framework/ISOException.throwIt(S)V
+				L16:	return;
+		}
+
+	}
+
+	.class public Th1Bai5 1 extends 0.3 {		// extends javacard/framework/Applet
+
+		.fields {
+			private byte[] studentId 0;		// [B
+			private byte[] name 1;		// [B
+			private byte[] dob 2;		// [B
+			private byte[] town 3;		// [B
+			private byte[] studentInfo 4;		// [B
+			private static byte DELIMITER = 36;		// B
+			private static final byte INS_ENTER_INFO = 0;		// B
+			private static final byte INS_GET_INFO = 1;		// B
+			private static final byte P1_ID = 1;		// B
+			private static final byte P1_NAME = 2;		// B
+			private static final byte P1_DOB = 3;		// B
+			private static final byte P1_ADDRESS = 4;		// B
+			private static final byte P1_FULL_INFO = 5;		// B
+		}
+
+		.publicMethodTable 7 {
+			equals(Ljava/lang/Object;)Z;
+			register()V;
+			register([BSB)V;
+			selectingApplet()Z;
+			deselect()V;
+			getShareableInterfaceObject(Ljavacard/framework/AID;B)Ljavacard/framework/Shareable;;
+			select()Z;
+			process(Ljavacard/framework/APDU;)V;
+		}
+
+		.packageMethodTable 0 {
+		}
+
+		.method private <init>()V {
+			.stack 2;
+			.locals 0;
+
+				L0:	aload_0;
+					invokespecial 18;		// javacard/framework/Applet.<init>()V
+					aload_0;
+					aconst_null;
+					putfield_a 2;		// reference Lab1/Th1Bai5.studentId
+					aload_0;
+					aconst_null;
+					putfield_a 3;		// reference Lab1/Th1Bai5.name
+					aload_0;
+					aconst_null;
+					putfield_a 4;		// reference Lab1/Th1Bai5.dob
+					aload_0;
+					aconst_null;
+					putfield_a 5;		// reference Lab1/Th1Bai5.town
+					return;
+		}
+
+		.method public static install([BSB)V 0 {
+			.stack 5;
+			.locals 0;
+
+				L0:	new 22;		// Lab1/Th1Bai5
+					dup;
+					invokespecial 23;		// Lab1/Th1Bai5.<init>()V
+					aload_0;
+					sload_1;
+					sconst_1;
+					sadd;
+					aload_0;
+					sload_1;
+					baload;
+					invokevirtual 24;		// register([BSB)V
+					return;
+		}
+
+		.method public process(Ljavacard/framework/APDU;)V 7 {
+			.stack 2;
+			.locals 2;
+
+			.descriptor	Ljavacard/framework/APDU;	0.10;
+
+				L0:	aload_0;
+					invokevirtual 25;		// selectingApplet()Z
+					ifeq L2;
+				L1:	return;
+				L2:	aload_1;
+					invokevirtual 7;		// getBuffer()[B
+					astore_2;
+				L3:	aload_2;
+					sconst_1;
+					baload;
+					sstore_3;
+				L4:	sload_3;
+					stableswitch L7 0 1 L5 L6;
+				L5:	aload_0;
+					aload_1;
+					invokespecial 26;		// Lab1/Th1Bai5.enterStudentInfo(Ljavacard/framework/APDU;)V
+					goto L8;
+				L6:	aload_0;
+					aload_1;
+					invokespecial 27;		// Lab1/Th1Bai5.getStudentInfo(Ljavacard/framework/APDU;)V
+					goto L8;
+				L7:	sspush 27904;
+					invokestatic 10;		// javacard/framework/ISOException.throwIt(S)V
+				L8:	return;
+		}
+
+		.method private enterStudentInfo(Ljavacard/framework/APDU;)V {
+			.stack 5;
+			.locals 5;
+
+			.descriptor	Ljavacard/framework/APDU;	0.10;
+
+				L0:	aload_1;
+					invokevirtual 7;		// getBuffer()[B
+					astore_2;
+				L1:	aload_1;
+					invokevirtual 13;		// setIncomingAndReceive()S
+					sstore_3;
+				L2:	sconst_5;
+					sstore 4;
+				L3:	aload_0;
+					sload_3;
+					newarray 11;
+					putfield_a 6;		// reference Lab1/Th1Bai5.studentInfo
+					aload_2;
+					sload 4;
+					getfield_a_this 6;		// reference Lab1/Th1Bai5.studentInfo
+					sconst_0;
+					sload_3;
+					invokestatic 14;		// javacard/framework/Util.arrayCopy([BS[BSS)S
+					pop;
+					aload_0;
+					aload_2;
+					sload 4;
+					sload_3;
+					getstatic_b 29;		// byte Lab1/Th1Bai5.DELIMITER
+					invokespecial 30;		// Lab1/Th1Bai5.findDelimiter([BSSB)S
+					sstore 5;
+				L4:	sload 5;
+					sload 4;
+					ssub;
+					sstore 6;
+				L5:	aload_0;
+					sload 6;
+					newarray 11;
+					putfield_a 2;		// reference Lab1/Th1Bai5.studentId
+					aload_2;
+					sload 4;
+					getfield_a_this 2;		// reference Lab1/Th1Bai5.studentId
+					sconst_0;
+					sload 6;
+					invokestatic 14;		// javacard/framework/Util.arrayCopy([BS[BSS)S
+					pop;
+					sload 5;
+					sconst_1;
+					sadd;
+					sstore 4;
+					aload_0;
+					aload_2;
+					sload 4;
+					sload_3;
+					getstatic_b 29;		// byte Lab1/Th1Bai5.DELIMITER
+					invokespecial 30;		// Lab1/Th1Bai5.findDelimiter([BSSB)S
+					sstore 5;
+					sload 5;
+					sload 4;
+					ssub;
+					sstore 6;
+					aload_0;
+					sload 6;
+					newarray 11;
+					putfield_a 3;		// reference Lab1/Th1Bai5.name
+					aload_2;
+					sload 4;
+					getfield_a_this 3;		// reference Lab1/Th1Bai5.name
+					sconst_0;
+					sload 6;
+					invokestatic 14;		// javacard/framework/Util.arrayCopy([BS[BSS)S
+					pop;
+					sload 5;
+					sconst_1;
+					sadd;
+					sstore 4;
+					aload_0;
+					aload_2;
+					sload 4;
+					sload_3;
+					getstatic_b 29;		// byte Lab1/Th1Bai5.DELIMITER
+					invokespecial 30;		// Lab1/Th1Bai5.findDelimiter([BSSB)S
+					sstore 5;
+					sload 5;
+					sload 4;
+					ssub;
+					sstore 6;
+					aload_0;
+					sload 6;
+					newarray 11;
+					putfield_a 4;		// reference Lab1/Th1Bai5.dob
+					aload_2;
+					sload 4;
+					getfield_a_this 4;		// reference Lab1/Th1Bai5.dob
+					sconst_0;
+					sload 6;
+					invokestatic 14;		// javacard/framework/Util.arrayCopy([BS[BSS)S
+					pop;
+					sload 5;
+					sconst_1;
+					sadd;
+					sstore 4;
+					sload_3;
+					sload 4;
+					ssub;
+					sconst_5;
+					sadd;
+					sstore 6;
+					aload_0;
+					sload 6;
+					newarray 11;
+					putfield_a 5;		// reference Lab1/Th1Bai5.town
+					aload_2;
+					sload 4;
+					getfield_a_this 5;		// reference Lab1/Th1Bai5.town
+					sconst_0;
+					sload 6;
+					invokestatic 14;		// javacard/framework/Util.arrayCopy([BS[BSS)S
+					pop;
+					return;
+		}
+
+		.method private findDelimiter([BSSB)S {
+			.stack 3;
+			.locals 1;
+
+				L0:	sload_2;
+					sstore 5;
+				L1:	goto L5;
+				L2:	aload_1;
+					sload 5;
+					baload;
+					sload 4;
+					if_scmpne L4;
+				L3:	sload 5;
+					sreturn;
+				L4:	sinc 5 1;
+				L5:	sload 5;
+					sload_2;
+					sload_3;
+					sadd;
+					if_scmplt L2;
+				L6:	sspush 27264;
+					invokestatic 10;		// javacard/framework/ISOException.throwIt(S)V
+					sconst_m1;
+					sreturn;
+		}
+
+		.method private getStudentInfo(Ljavacard/framework/APDU;)V {
+			.stack 4;
+			.locals 4;
+
+			.descriptor	Ljavacard/framework/APDU;	0.10;
+
+				L0:	aload_1;
+					invokevirtual 7;		// getBuffer()[B
+					astore_2;
+				L1:	aload_2;
+					sconst_2;
+					baload;
+					sstore_3;
+				L2:	aconst_null;
+					astore 4;
+				L3:	sconst_0;
+					sstore 5;
+				L4:	sload_3;
+					stableswitch L10 1 5 L5 L6 L7 L8 L9;
+				L5:	getfield_a_this 2;		// reference Lab1/Th1Bai5.studentId
+					astore 4;
+					getfield_a_this 2;		// reference Lab1/Th1Bai5.studentId
+					arraylength;
+					sstore 5;
+					goto L11;
+				L6:	getfield_a_this 3;		// reference Lab1/Th1Bai5.name
+					astore 4;
+					getfield_a_this 3;		// reference Lab1/Th1Bai5.name
+					arraylength;
+					sstore 5;
+					goto L11;
+				L7:	getfield_a_this 4;		// reference Lab1/Th1Bai5.dob
+					astore 4;
+					getfield_a_this 4;		// reference Lab1/Th1Bai5.dob
+					arraylength;
+					sstore 5;
+					goto L11;
+				L8:	getfield_a_this 5;		// reference Lab1/Th1Bai5.town
+					astore 4;
+					getfield_a_this 5;		// reference Lab1/Th1Bai5.town
+					arraylength;
+					sstore 5;
+					goto L11;
+				L9:	getfield_a_this 6;		// reference Lab1/Th1Bai5.studentInfo
+					astore 4;
+					getfield_a_this 6;		// reference Lab1/Th1Bai5.studentInfo
+					arraylength;
+					sstore 5;
+					goto L11;
+				L10:	sspush 27270;
+					invokestatic 10;		// javacard/framework/ISOException.throwIt(S)V
+				L11:	aload_1;
+					invokevirtual 15;		// setOutgoing()S
+					pop;
+					aload_1;
+					sload 5;
+					invokevirtual 16;		// setOutgoingLength(S)V
+					aload_1;
+					aload 4;
+					sconst_0;
+					sload 5;
+					invokevirtual 17;		// sendBytesLong([BSS)V
+					return;
+		}
+
+	}
+
+}
